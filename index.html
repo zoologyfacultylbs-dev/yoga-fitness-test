@@ -99,7 +99,7 @@ code{background:#f0edf9;padding:1px 6px;border-radius:4px;color:#4a2080;font-fam
 // ════════════════════════════════════════════════════════════
 // ⚠️  PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
 // ════════════════════════════════════════════════════════════
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwfis4zIE9FLopeYunEk5u2AysD6-5iw9GiInY0B9qN4usnoy1FsVzfdVJ4rxhr_3zW/exec";
+const GOOGLE_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
 
 const TEACHER_PASSWORD = "yoga2025";
 const TIME_PER_Q = 20;
@@ -190,8 +190,18 @@ function el(tag,attrs,...children){
 }
 function render(){
   const root=document.getElementById("root");
+  // Track focused element before wipe so we can restore after re-render
+  const focused=document.activeElement;
+  const focusedId=focused&&focused.dataset?focused.dataset.fid:null;
+  const focusedType=focused?focused.type:null;
+  const caretPos=focused&&focused.selectionStart!=null?focused.selectionStart:null;
   root.innerHTML="";
   root.appendChild(buildView());
+  // Restore focus to the same field after re-render
+  if(focusedId){
+    const el2=root.querySelector(`[data-fid="${focusedId}"]`);
+    if(el2){el2.focus();if(caretPos!=null&&el2.setSelectionRange)el2.setSelectionRange(caretPos,caretPos);}
+  }
 }
 function setState(patch,rerender=true){
   Object.assign(STATE,patch);
@@ -288,13 +298,13 @@ function buildRegisterView(){
   return buildCard("🕉️","Yoga & Fitness Test","Student Registration / छात्र पंजीकरण",
     el("div",{class:"body"},
       lbl("पूरा नाम / Full Name"),
-      inp("text",STATE.name,v=>setState({name:v},false),{placeholder:"e.g. Priya Sharma"}),
+      inp("text",STATE.name,v=>setState({name:v},true),{placeholder:"e.g. Priya Sharma","data-fid":"f-name"}),
       lbl("अनुक्रमांक / Roll Number"),
-      inp("text",STATE.roll,v=>setState({roll:v},false),{placeholder:"e.g. 2024YF031"}),
+      inp("text",STATE.roll,v=>setState({roll:v},true),{placeholder:"e.g. 2024YF031","data-fid":"f-roll"}),
       lbl("कक्षा / Class"),
-      inp("text",STATE.className,v=>setState({className:v},false),{placeholder:"e.g. B.Sc. I Year"}),
+      inp("text",STATE.className,v=>setState({className:v},true),{placeholder:"e.g. B.Sc. I Year","data-fid":"f-class"}),
       lbl("मोबाइल नंबर / Mobile Number"),
-      inp("tel",STATE.mobile,v=>setState({mobile:v.replace(/\D/g,"").slice(0,10)},false),{placeholder:"e.g. 9876543210"}),
+      inp("tel",STATE.mobile,v=>setState({mobile:v.replace(/\D/g,"").slice(0,10)},true),{placeholder:"e.g. 9876543210","data-fid":"f-mobile"}),
       el("div",{class:"session-pill"},"Session ID: ",el("b",null,STATE.sessionId)," ",el("span",{style:{color:"#aaa",fontSize:"11px"}},"(इसे नोट करें)")),
       btn("Proceed to Instructions →",()=>setState({testPhase:"instructions"}),!canProceed),
       el("div",{class:"back-link",onClick:()=>setState({mode:"home"})},"← Back to Home")
@@ -404,7 +414,7 @@ function buildTeacherLogin(){
       lbl("Password"),
       el("input",{type:"password",placeholder:"Enter teacher password",value:STATE.pw,
         style:{borderColor:STATE.pwErr?"#e53935":"#d0c8f0"},
-        onInput:e=>setState({pw:e.target.value,pwErr:false},false),
+        onInput:e=>setState({pw:e.target.value,pwErr:false},true),
         onKeydown:e=>{if(e.key==="Enter")doLogin();}
       }),
       STATE.pwErr?el("div",{class:"pw-err"},"Incorrect password."):"",
@@ -556,10 +566,10 @@ function buildScheduleTab(status){
     ),
     STATE.winEnabled?el("div",null,
       el("div",{class:"grid2"},
-        el("div",null,lbl("Start Date"),inp("date",STATE.startDate,v=>setState({startDate:v},false))),
-        el("div",null,lbl("Start Time"),inp("time",STATE.startTime,v=>setState({startTime:v},false))),
-        el("div",null,lbl("End Date"),inp("date",STATE.endDate,v=>setState({endDate:v},false))),
-        el("div",null,lbl("End Time"),inp("time",STATE.endTime,v=>setState({endTime:v},false)))
+        el("div",null,lbl("Start Date"),inp("date",STATE.startDate,v=>setState({startDate:v},true))),
+        el("div",null,lbl("Start Time"),inp("time",STATE.startTime,v=>setState({startTime:v},true))),
+        el("div",null,lbl("End Date"),inp("date",STATE.endDate,v=>setState({endDate:v},true))),
+        el("div",null,lbl("End Time"),inp("time",STATE.endTime,v=>setState({endTime:v},true)))
       ),
       STATE.startDate&&STATE.startTime&&STATE.endDate&&STATE.endTime?
         el("div",{style:{marginTop:"10px",fontSize:"13px",color:"#4a2080",background:"#f0edf9",padding:"8px 12px",borderRadius:"6px"}},
@@ -594,10 +604,16 @@ function buildCard(icon,title,sub,content){
 }
 function lbl(text){return el("label",{class:"lbl"},text);}
 function inp(type,val,onChange,extra={}){
-  const e=el("input",{type,...extra});
+  const e=document.createElement("input");
+  e.type=type;
   e.value=val;
-  e.addEventListener("input",ev=>onChange(ev.target.value));
+  if(extra.placeholder)e.placeholder=extra.placeholder;
   if(extra.maxLength)e.maxLength=extra.maxLength;
+  // Apply any extra dataset or other attrs (e.g. data-fid for focus restore)
+  Object.entries(extra).forEach(([k,v])=>{
+    if(k.startsWith("data-"))e.setAttribute(k,v);
+  });
+  e.addEventListener("input",ev=>onChange(ev.target.value));
   return e;
 }
 function btn(text,onClick,disabled=false,style={}){
@@ -724,4 +740,3 @@ render();
 </script>
 </body>
 </html>
-
