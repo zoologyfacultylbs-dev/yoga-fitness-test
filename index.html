@@ -1,888 +1,727 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Yoga &amp; Fitness — Online Assessment</title>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'Segoe UI', system-ui, sans-serif; }
-  @media (max-width: 480px) { .hide-mobile { display: none; } }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#2D1B69 0%,#4a2080 50%,#1a3a5c 100%);min-height:100vh;}
+#root{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:24px 12px;}
+.card{background:#FAF8F2;border-radius:16px;width:100%;max-width:640px;box-shadow:0 24px 64px rgba(0,0,0,.35);overflow:hidden;}
+.band{background:linear-gradient(90deg,#F5A623,#e8891a);padding:16px 22px;display:flex;align-items:center;gap:14px;}
+.band-icon{font-size:32px;}
+.band-title{font-size:18px;font-weight:700;color:#2D1B69;}
+.band-sub{font-size:12px;color:#4a2080;margin-top:2px;}
+.band-row{justify-content:space-between;}
+.body{padding:22px 26px;}
+label.lbl{display:block;font-size:13px;font-weight:600;color:#555;margin-bottom:5px;margin-top:14px;}
+input[type=text],input[type=tel],input[type=password],input[type=date],input[type=time]{width:100%;padding:10px 13px;border-radius:8px;border:1.5px solid #d0c8f0;font-size:15px;background:#fff;color:#2D1B69;outline:none;font-family:inherit;}
+.btn{margin-top:18px;width:100%;padding:13px;background:linear-gradient(90deg,#F5A623,#e8891a);color:#2D1B69;font-weight:700;font-size:15px;border:none;border-radius:10px;cursor:pointer;font-family:inherit;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.btn-true{flex:1;padding:13px;border-radius:10px;border:none;font-size:15px;font-weight:700;cursor:pointer;color:#fff;background:#4a7c59;font-family:inherit;}
+.btn-false{flex:1;padding:13px;border-radius:10px;border:none;font-size:15px;font-weight:700;cursor:pointer;color:#fff;background:#e53935;font-family:inherit;}
+.session-pill{margin-top:14px;padding:9px 13px;background:#f0edf9;border-radius:8px;font-size:13px;color:#4a2080;border:1px dashed #c0b0e8;}
+.back-link{display:block;text-align:center;margin-top:16px;color:#888;font-size:13px;cursor:pointer;}
+.info-box{background:#f0edf9;border-radius:8px;padding:9px 13px;font-size:13px;color:#4a2080;margin-top:14px;line-height:1.6;}
+.instr-row{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px;line-height:1.5;}
+.instr-num{min-width:24px;height:24px;border-radius:50%;background:#2D1B69;color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:2px;}
+.instr-en{font-size:13px;color:#2D1B69;font-weight:600;}
+.instr-hi{font-size:12px;color:#777;}
+.timer-bg{height:6px;background:#e0d8f0;}
+.timer-fill{height:6px;transition:width 1s linear,background .5s;}
+.warn-bar{background:#fff3cd;border-left:4px solid #f5a623;padding:7px 16px;font-size:12px;color:#7a4f00;}
+.topic-tag{display:inline-block;margin:14px 20px 0;padding:3px 11px;background:#e8e4f0;border-radius:20px;font-size:11px;font-weight:600;color:#4a2080;text-transform:uppercase;}
+.q-box{margin:10px 20px 18px;display:flex;gap:10px;align-items:flex-start;}
+.q-num{font-weight:800;color:#f5a623;font-size:18px;min-width:30px;flex-shrink:0;padding-top:2px;}
+.q-en{font-size:16px;color:#1a1030;line-height:1.55;font-weight:500;margin-bottom:6px;}
+.q-hi{font-size:14px;color:#4a2080;line-height:1.6;font-weight:500;}
+.ans-row{display:flex;gap:12px;padding:0 20px 18px;}
+.dots{display:flex;flex-wrap:wrap;gap:5px;padding:0 20px 16px;}
+.dot{width:10px;height:10px;border-radius:50%;background:#e0d8f0;transition:background .3s;}
+.timer-num{font-size:30px;font-weight:900;line-height:1;}
+.section-title{font-size:12px;font-weight:700;color:#4a2080;text-transform:uppercase;letter-spacing:.8px;margin-top:20px;margin-bottom:10px;border-bottom:2px solid #e0d8f0;padding-bottom:5px;}
+.summary-row{display:flex;gap:10px;margin-bottom:4px;}
+.summary-box{flex:1;background:#f5f3fc;border-radius:10px;padding:12px 8px;text-align:center;border:1px solid #e0d8f0;}
+.stat-val{font-weight:900;font-size:26px;}
+.stat-lbl{font-size:11px;color:#888;margin-top:3px;font-weight:600;}
+.grade-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;}
+.bar-bg{flex:1;height:8px;background:#e0d8f0;border-radius:4px;overflow:hidden;}
+.bar-fill{height:8px;border-radius:4px;transition:width .5s;}
+.filter-row{display:flex;justify-content:space-between;align-items:center;margin-top:4px;}
+.filter-btns{display:flex;gap:8px;}
+.filter-btn{padding:4px 12px;border-radius:20px;border:1.5px solid #d0c8f0;cursor:pointer;background:#fff;color:#555;font-size:12px;font-weight:600;font-family:inherit;}
+.filter-btn.active{background:#2D1B69;color:#fff;}
+.table-head{display:flex;background:#2D1B69;color:#c0b0e8;font-size:11px;font-weight:700;padding:8px 14px;border-radius:8px 8px 0 0;text-transform:uppercase;letter-spacing:.5px;}
+.table-row{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid #ede8f8;cursor:pointer;}
+.table-row.flagged{background:#fff5f5;border-left:4px solid #e53935;}
+.table-row.even{background:#faf8ff;}
+.expand-box{background:#f8f5ff;padding:12px 16px;border-bottom:2px solid #e0d8f0;}
+.rev-item{padding:9px 11px;border-radius:6px;margin-bottom:7px;background:#fff;border:1px solid #e8e4f0;border-left:4px solid #bbb;}
+.rev-q{font-size:13px;color:#333;line-height:1.4;margin-bottom:3px;}
+.rev-hi{font-size:12px;color:#999;margin-bottom:3px;font-style:italic;}
+.rev-a{font-size:12px;color:#666;}
+.empty-box{text-align:center;padding:40px 20px;color:#aaa;}
+.saved-bar{background:#e8f5e9;padding:10px 13px;font-size:13px;color:#2e7d32;border-radius:6px;line-height:1.6;margin-top:10px;}
+.flag-bar{background:#fde8e8;border-left:4px solid #e53935;padding:9px 13px;font-size:13px;color:#b71c1c;border-radius:4px;margin-bottom:12px;}
+.tab-strip{display:flex;background:#f0edf9;border-bottom:1px solid #e0d8f0;}
+.tab-btn{flex:1;padding:10px;border:none;cursor:pointer;background:#f0edf9;color:#888;font-weight:500;font-size:13px;border-bottom:3px solid transparent;font-family:inherit;}
+.tab-btn.active{background:#FAF8F2;color:#2D1B69;font-weight:700;border-bottom:3px solid #F5A623;}
+.violation-badge{border-radius:12px;padding:2px 10px;font-size:12px;font-weight:600;}
+.home-band{background:linear-gradient(90deg,#F5A623,#e8891a);padding:28px 24px;text-align:center;}
+.home-title{font-size:26px;font-weight:900;color:#2D1B69;}
+.home-sub{font-size:14px;color:#4a2080;margin-top:4px;}
+.home-inst{font-size:13px;color:#7a5000;margin-top:6px;}
+.home-body{padding:28px 24px;display:flex;flex-direction:column;gap:16px;}
+.big-btn{display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:12px;border:none;cursor:pointer;color:#fff;text-align:left;width:100%;font-family:inherit;}
+.big-btn-icon{font-size:32px;flex-shrink:0;}
+.big-btn-title{font-size:17px;font-weight:700;}
+.big-btn-sub{font-size:12px;opacity:.8;margin-top:3px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.notice{padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:4px;}
+.pw-err{color:#e53935;font-size:13px;margin-top:6px;}
+.confirm-row{display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:6px;margin-top:16px;}
+.clear-btn{padding:6px 14px;border-radius:6px;border:1px solid #e0d8f0;background:#fde8e8;color:#c62828;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+.info-note{margin-top:20px;padding:12px 14px;background:#fff8e1;border-radius:8px;border-left:4px solid #f5a623;}
+.info-note-title{font-weight:700;font-size:13px;color:#7a4f00;margin-bottom:6px;}
+.info-note-body{font-size:12px;color:#555;line-height:1.7;}
+.status-box{padding:12px 16px;border-radius:10px;margin-bottom:16px;}
+.window-toggle-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:10px 14px;background:#f5f3fc;border-radius:8px;}
+.setup-warn{background:#fff3cd;border-left:4px solid #f5a623;padding:12px 16px;font-size:14px;color:#7a4f00;line-height:1.7;margin:16px 0;}
+code{background:#f0edf9;padding:1px 6px;border-radius:4px;color:#4a2080;font-family:monospace;}
+@media(max-width:480px){.grid2{grid-template-columns:1fr;}.summary-box{padding:8px 4px;}.stat-val{font-size:20px;}}
 </style>
 </head>
 <body>
-
 <div id="root"></div>
 
-<!-- React + Babel via CDN — no build step needed -->
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-<script type="text/babel" data-presets="react">
-const { useState, useEffect, useRef, useCallback } = React;
-
-// ════════════════════════════════════════════════════════════════
-// ⚠️ STEP 1: PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
-// (See google_apps_script_backend.gs deployment instructions)
-// ════════════════════════════════════════════════════════════════
+<script>
+// ════════════════════════════════════════════════════════════
+// ⚠️  PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
+// ════════════════════════════════════════════════════════════
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwfis4zIE9FLopeYunEk5u2AysD6-5iw9GiInY0B9qN4usnoy1FsVzfdVJ4rxhr_3zW/exec";
 
 const TEACHER_PASSWORD = "yoga2025";
 const TIME_PER_Q = 20;
 
 const ALL_QUESTIONS = [
-  { id: 1, answer: true, topic: "Philosophy",
-    en: "The word 'Yoga' is derived from the Sanskrit root 'Yuj', meaning to unite or yoke.",
-    hi: "'योग' शब्द संस्कृत मूल 'युज' से लिया गया है, जिसका अर्थ है जोड़ना या एकजुट करना।" },
-  { id: 2, answer: true, topic: "Philosophy",
-    en: "Patanjali's Yoga Sutras describe Eight Limbs (Ashtanga) of Yoga.",
-    hi: "पतंजलि के योग सूत्र योग के आठ अंगों (अष्टांग) का वर्णन करते हैं।" },
-  { id: 3, answer: false, topic: "Pranayama",
-    en: "Pranayama refers to the practice of controlling body postures.",
-    hi: "प्राणायाम शरीर की मुद्राओं को नियंत्रित करने की क्रिया को कहते हैं।" },
-  { id: 4, answer: false, topic: "Asanas",
-    en: "Shavasana is performed at the beginning of a yoga session to warm up the body.",
-    hi: "शवासन शरीर को गर्म करने के लिए योग सत्र की शुरुआत में किया जाता है।" },
-  { id: 5, answer: true, topic: "Philosophy",
-    en: "The primary aim of yoga is the union of individual consciousness with universal consciousness.",
-    hi: "योग का प्राथमिक उद्देश्य व्यक्तिगत चेतना का सार्वभौमिक चेतना के साथ मिलन है।" },
-  { id: 6, answer: true, topic: "Asanas",
-    en: "Surya Namaskar (Sun Salutation) consists of 12 steps performed in a sequence.",
-    hi: "सूर्य नमस्कार एक क्रम में की जाने वाली 12 चरणों से बना है।" },
-  { id: 7, answer: true, topic: "Pranayama",
-    en: "Nadi Shodhana Pranayama is also known as Alternate Nostril Breathing.",
-    hi: "नाड़ी शोधन प्राणायाम को 'अनुलोम-विलोम' भी कहा जाता है।" },
-  { id: 8, answer: false, topic: "Fitness",
-    en: "Aerobic exercises primarily build muscle strength rather than cardiovascular endurance.",
-    hi: "एरोबिक व्यायाम मुख्य रूप से हृदय संबंधी सहनशक्ति की बजाय मांसपेशियों की ताकत बढ़ाते हैं।" },
-  { id: 9, answer: true, topic: "Fitness",
-    en: "BMI is calculated by dividing weight (kg) by the square of height (metres).",
-    hi: "BMI की गणना वजन (किग्रा) को ऊँचाई (मीटर) के वर्ग से विभाजित करके की जाती है।" },
-  { id: 10, answer: true, topic: "Pranayama",
-    en: "Kapalbhati involves passive inhalation and forceful exhalation.",
-    hi: "कपालभाति में सहज श्वास अंदर लेना और बलपूर्वक बाहर छोड़ना शामिल है।" },
-  { id: 11, answer: true, topic: "Anatomy",
-    en: "The human spine has 33 vertebrae in total.",
-    hi: "मानव रीढ़ की हड्डी में कुल 33 कशेरुकाएँ होती हैं।" },
-  { id: 12, answer: false, topic: "Fitness",
-    en: "Flexibility training has no impact on injury prevention during physical activity.",
-    hi: "लचीलेपन का प्रशिक्षण शारीरिक गतिविधि के दौरान चोट की रोकथाम पर कोई प्रभाव नहीं डालता।" },
-  { id: 13, answer: true, topic: "Asanas",
-    en: "Bhujangasana is commonly known as the Cobra Pose.",
-    hi: "भुजंगासन को सामान्यतः 'कोबरा पोज़' के नाम से जाना जाता है।" },
-  { id: 14, answer: true, topic: "Philosophy",
-    en: "In yoga, 'Ahimsa' means non-violence and is the first Yama.",
-    hi: "योग में 'अहिंसा' का अर्थ अहिंसा है और यह पहला यम है।" },
-  { id: 15, answer: false, topic: "Fitness",
-    en: "Muscles grow during the actual workout session itself.",
-    hi: "मांसपेशियाँ वास्तविक व्यायाम सत्र के दौरान ही बढ़ती हैं।" },
-  { id: 16, answer: true, topic: "Asanas",
-    en: "Trikonasana (Triangle Pose) stretches the hamstrings, groin, and spine.",
-    hi: "त्रिकोणासन (त्रिभुज मुद्रा) हैमस्ट्रिंग, जाँघ और रीढ़ को खींचता है।" },
-  { id: 17, answer: true, topic: "Philosophy",
-    en: "Yoga Nidra is a state of conscious deep sleep used for relaxation and healing.",
-    hi: "योग निद्रा एक सचेत गहरी नींद की अवस्था है जिसका उपयोग विश्राम और उपचार के लिए किया जाता है।" },
-  { id: 18, answer: true, topic: "Fitness",
-    en: "Regular yoga practice has been shown to reduce cortisol (stress hormone) levels.",
-    hi: "नियमित योगाभ्यास से कोर्टिसोल (तनाव हार्मोन) के स्तर में कमी देखी गई है।" },
-  { id: 19, answer: false, topic: "Pranayama",
-    en: "Anulom Vilom and Nadi Shodhana are two completely different pranayama techniques.",
-    hi: "अनुलोम-विलोम और नाड़ी शोधन दो बिल्कुल अलग प्राणायाम तकनीकें हैं।" },
-  { id: 20, answer: false, topic: "Fitness",
-    en: "The resting heart rate of a well-trained athlete is typically higher than that of an untrained person.",
-    hi: "एक अच्छे प्रशिक्षित खिलाड़ी की विश्राम हृदय गति सामान्यतः अप्रशिक्षित व्यक्ति से अधिक होती है।" },
+  {id:1,answer:true,topic:"Philosophy",en:"The word 'Yoga' is derived from the Sanskrit root 'Yuj', meaning to unite or yoke.",hi:"'योग' शब्द संस्कृत मूल 'युज' से लिया गया है, जिसका अर्थ है जोड़ना या एकजुट करना।"},
+  {id:2,answer:true,topic:"Philosophy",en:"Patanjali's Yoga Sutras describe Eight Limbs (Ashtanga) of Yoga.",hi:"पतंजलि के योग सूत्र योग के आठ अंगों (अष्टांग) का वर्णन करते हैं।"},
+  {id:3,answer:false,topic:"Pranayama",en:"Pranayama refers to the practice of controlling body postures.",hi:"प्राणायाम शरीर की मुद्राओं को नियंत्रित करने की क्रिया को कहते हैं।"},
+  {id:4,answer:false,topic:"Asanas",en:"Shavasana is performed at the beginning of a yoga session to warm up the body.",hi:"शवासन शरीर को गर्म करने के लिए योग सत्र की शुरुआत में किया जाता है।"},
+  {id:5,answer:true,topic:"Philosophy",en:"The primary aim of yoga is the union of individual consciousness with universal consciousness.",hi:"योग का प्राथमिक उद्देश्य व्यक्तिगत चेतना का सार्वभौमिक चेतना के साथ मिलन है।"},
+  {id:6,answer:true,topic:"Asanas",en:"Surya Namaskar (Sun Salutation) consists of 12 steps performed in a sequence.",hi:"सूर्य नमस्कार एक क्रम में की जाने वाली 12 चरणों से बना है।"},
+  {id:7,answer:true,topic:"Pranayama",en:"Nadi Shodhana Pranayama is also known as Alternate Nostril Breathing.",hi:"नाड़ी शोधन प्राणायाम को 'अनुलोम-विलोम' भी कहा जाता है।"},
+  {id:8,answer:false,topic:"Fitness",en:"Aerobic exercises primarily build muscle strength rather than cardiovascular endurance.",hi:"एरोबिक व्यायाम मुख्य रूप से हृदय संबंधी सहनशक्ति की बजाय मांसपेशियों की ताकत बढ़ाते हैं।"},
+  {id:9,answer:true,topic:"Fitness",en:"BMI is calculated by dividing weight (kg) by the square of height (metres).",hi:"BMI की गणना वजन (किग्रा) को ऊँचाई (मीटर) के वर्ग से विभाजित करके की जाती है।"},
+  {id:10,answer:true,topic:"Pranayama",en:"Kapalbhati involves passive inhalation and forceful exhalation.",hi:"कपालभाति में सहज श्वास अंदर लेना और बलपूर्वक बाहर छोड़ना शामिल है।"},
+  {id:11,answer:true,topic:"Anatomy",en:"The human spine has 33 vertebrae in total.",hi:"मानव रीढ़ की हड्डी में कुल 33 कशेरुकाएँ होती हैं।"},
+  {id:12,answer:false,topic:"Fitness",en:"Flexibility training has no impact on injury prevention during physical activity.",hi:"लचीलेपन का प्रशिक्षण शारीरिक गतिविधि के दौरान चोट की रोकथाम पर कोई प्रभाव नहीं डालता।"},
+  {id:13,answer:true,topic:"Asanas",en:"Bhujangasana is commonly known as the Cobra Pose.",hi:"भुजंगासन को सामान्यतः 'कोबरा पोज़' के नाम से जाना जाता है।"},
+  {id:14,answer:true,topic:"Philosophy",en:"In yoga, 'Ahimsa' means non-violence and is the first Yama.",hi:"योग में 'अहिंसा' का अर्थ अहिंसा है और यह पहला यम है।"},
+  {id:15,answer:false,topic:"Fitness",en:"Muscles grow during the actual workout session itself.",hi:"मांसपेशियाँ वास्तविक व्यायाम सत्र के दौरान ही बढ़ती हैं।"},
+  {id:16,answer:true,topic:"Asanas",en:"Trikonasana (Triangle Pose) stretches the hamstrings, groin, and spine.",hi:"त्रिकोणासन (त्रिभुज मुद्रा) हैमस्ट्रिंग, जाँघ और रीढ़ को खींचता है।"},
+  {id:17,answer:true,topic:"Philosophy",en:"Yoga Nidra is a state of conscious deep sleep used for relaxation and healing.",hi:"योग निद्रा एक सचेत गहरी नींद की अवस्था है जिसका उपयोग विश्राम और उपचार के लिए किया जाता है।"},
+  {id:18,answer:true,topic:"Fitness",en:"Regular yoga practice has been shown to reduce cortisol (stress hormone) levels.",hi:"नियमित योगाभ्यास से कोर्टिसोल (तनाव हार्मोन) के स्तर में कमी देखी गई है।"},
+  {id:19,answer:false,topic:"Pranayama",en:"Anulom Vilom and Nadi Shodhana are two completely different pranayama techniques.",hi:"अनुलोम-विलोम और नाड़ी शोधन दो बिल्कुल अलग प्राणायाम तकनीकें हैं।"},
+  {id:20,answer:false,topic:"Fitness",en:"The resting heart rate of a well-trained athlete is typically higher than that of an untrained person.",hi:"एक अच्छे प्रशिक्षित खिलाड़ी की विश्राम हृदय गति सामान्यतः अप्रशिक्षित व्यक्ति से अधिक होती है।"},
 ];
 
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+// ── helpers ──────────────────────────────────────────────────
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function genId(){return"YF-"+Math.random().toString(36).substr(2,6).toUpperCase();}
+function grade(p){return p>=80?"A":p>=60?"B":p>=40?"C":"F";}
+function gradeColor(g){return{A:"#4a7c59",B:"#2d6a9f",C:"#f5a623",F:"#e53935"}[g]||"#888";}
+function fmtTime(ts){return new Date(ts).toLocaleString("en-IN",{dateStyle:"short",timeStyle:"short"});}
+function isOpen(win){if(!win||!win.enabled)return true;const n=Date.now();return n>=win.startTs&&n<=win.endTs;}
+function winStatus(win){if(!win||!win.enabled)return"open";const n=Date.now();if(n<win.startTs)return"before";if(n>win.endTs)return"after";return"open";}
+
+// ── API calls ─────────────────────────────────────────────────
+const CONFIGURED = GOOGLE_SCRIPT_URL && !GOOGLE_SCRIPT_URL.startsWith("PASTE_");
+async function apiGet(action){
+  const r=await fetch(`${GOOGLE_SCRIPT_URL}?action=${action}`);
+  return r.json();
 }
-function genSessionId() { return "YF-" + Math.random().toString(36).substr(2, 6).toUpperCase(); }
-function grade(pct) { return pct >= 80 ? "A" : pct >= 60 ? "B" : pct >= 40 ? "C" : "F"; }
-function gradeColor(g) { return { A: "#4a7c59", B: "#2d6a9f", C: "#f5a623", F: "#e53935" }[g] || "#888"; }
-function formatTime(ts) { return new Date(ts).toLocaleString("en-IN", { dateStyle: "short", timeStyle: "short" }); }
-
-function isTestOpen(win) {
-  if (!win || !win.enabled) return true;
-  const now = Date.now();
-  return now >= win.startTs && now <= win.endTs;
+async function apiPost(payload){
+  const r=await fetch(GOOGLE_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(payload)});
+  return r.json();
 }
-function windowStatus(win) {
-  if (!win || !win.enabled) return "open";
-  const now = Date.now();
-  if (now < win.startTs) return "before";
-  if (now > win.endTs) return "after";
-  return "open";
-}
+async function loadSubs(){try{const r=await apiGet("getSubmissions");return r.ok?r.submissions:[];}catch{return[];}}
+async function saveSub(rec){try{await apiPost({action:"submit",record:rec});return true;}catch{return false;}}
+async function loadWin(){try{const r=await apiGet("getWindow");return r.ok?r.window:null;}catch{return null;}}
+async function saveWin(w){try{await apiPost({action:"saveWindow",window:w});return true;}catch{return false;}}
 
-// ─── BACKEND CALLS (Google Apps Script) ───────────────────────────
-async function apiGet(action, params = {}) {
-  const qs = new URLSearchParams({ action, ...params }).toString();
-  const res = await fetch(`${GOOGLE_SCRIPT_URL}?${qs}`);
-  return res.json();
-}
-async function apiPost(action, payload) {
-  const res = await fetch(GOOGLE_SCRIPT_URL, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain" }, // avoids CORS preflight on Apps Script
-    body: JSON.stringify({ action, ...payload }),
-  });
-  return res.json();
-}
-async function loadSubmissions() {
-  try { const r = await apiGet("getSubmissions"); return r.ok ? r.submissions : []; }
-  catch { return []; }
-}
-async function saveSubmission(record) {
-  try { await apiPost("submit", { record }); return true; } catch { return false; }
-}
-async function loadWindow() {
-  try { const r = await apiGet("getWindow"); return r.ok ? r.window : null; }
-  catch { return null; }
-}
-async function saveWindow(win) {
-  try { await apiPost("saveWindow", { window: win }); return true; } catch { return false; }
-}
-
-// ─── ROOT ─────────────────────────────────────────────────────────
-function App() {
-  const [mode, setMode] = useState("home");
-  const configured = GOOGLE_SCRIPT_URL && !GOOGLE_SCRIPT_URL.startsWith("PASTE_");
-
-  if (!configured) {
-    return (
-      <div style={S.page}><div style={S.card}>
-        <div style={S.band}><span style={S.bandIcon}>⚠️</span>
-          <div><div style={S.bandTitle}>Setup Required</div><div style={S.bandSub}>Backend not connected</div></div>
-        </div>
-        <div style={S.body}>
-          <p style={{ fontSize: 14, color: "#555", lineHeight: 1.7 }}>
-            This page is not yet connected to your Google Sheet. Open this HTML file in a text
-            editor, find <code style={S.code}>GOOGLE_SCRIPT_URL</code> near the top of the script,
-            and paste in your deployed Apps Script Web App URL. See the setup instructions provided
-            alongside this file.
-          </p>
-        </div>
-      </div></div>
-    );
-  }
-
-  return (
-    <div style={S.root}>
-      {mode === "home"    && <Home onStudent={() => setMode("test")} onTeacher={() => setMode("teacher")} />}
-      {mode === "test"    && <StudentTest onBack={() => setMode("home")} />}
-      {mode === "teacher" && <TeacherDashboard onBack={() => setMode("home")} />}
-    </div>
-  );
-}
-
-// ─── HOME ─────────────────────────────────────────────────────────
-function Home({ onStudent, onTeacher }) {
-  const [win, setWin] = useState(null);
-  const [loaded, setLoaded] = useState(false);
-  useEffect(() => { loadWindow().then(w => { setWin(w); setLoaded(true); }); }, []);
-  const status = windowStatus(win);
-
-  return (
-    <div style={S.page}>
-      <div style={S.homeCard}>
-        <div style={S.homeBand}>
-          <div style={S.omBig}>🕉️</div>
-          <div style={S.homeTitle}>Yoga &amp; Fitness</div>
-          <div style={S.homeSub}>Vocational Course — Online Assessment Portal</div>
-          <div style={S.homeInst}>श्री लाल बहादुर शास्त्री डिग्री कॉलेज, गोण्डा</div>
-        </div>
-        <div style={S.homeBody}>
-          {win && win.enabled && (
-            <div style={{
-              padding: "10px 14px", borderRadius: 8, fontSize: 13, marginBottom: 4,
-              background: status === "open" ? "#e8f5e9" : status === "before" ? "#fff8e1" : "#fde8e8",
-              borderLeft: `4px solid ${status === "open" ? "#4a7c59" : status === "before" ? "#f5a623" : "#e53935"}`,
-              color: status === "open" ? "#2e7d32" : status === "before" ? "#7a4f00" : "#b71c1c",
-            }}>
-              {status === "open" && `✅ Test is OPEN until ${formatTime(win.endTs)}`}
-              {status === "before" && `⏳ Test opens on ${formatTime(win.startTs)}`}
-              {status === "after" && `🔒 Test window has closed (ended ${formatTime(win.endTs)})`}
-            </div>
-          )}
-          {!loaded && <div style={{ fontSize: 13, color: "#999", textAlign: "center" }}>Checking exam status...</div>}
-
-          <button
-            style={{ ...S.bigBtn, background: status === "open" ? "linear-gradient(135deg,#4a7c59,#2d5e40)" : "linear-gradient(135deg,#aaa,#888)", cursor: status === "open" ? "pointer" : "not-allowed" }}
-            onClick={status === "open" ? onStudent : undefined}
-          >
-            <span style={S.bigBtnIcon}>📝</span>
-            <span>
-              <div style={S.bigBtnTitle}>परीक्षा दें / Take the Test</div>
-              <div style={S.bigBtnSub}>20 प्रश्न · 20 सेकंड प्रति प्रश्न</div>
-            </span>
-          </button>
-
-          <button style={{ ...S.bigBtn, background: "linear-gradient(135deg,#2D1B69,#4a2080)" }} onClick={onTeacher}>
-            <span style={S.bigBtnIcon}>📊</span>
-            <span>
-              <div style={S.bigBtnTitle}>Teacher Dashboard</div>
-              <div style={S.bigBtnSub}>View all submissions &amp; manage exam window</div>
-            </span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── STUDENT TEST ─────────────────────────────────────────────────
-function StudentTest({ onBack }) {
-  const [phase, setPhase] = useState("checking");
-  const [name, setName] = useState("");
-  const [roll, setRoll] = useState("");
-  const [className, setClassName] = useState("");
-  const [mobile, setMobile] = useState("");
-  const [sessionId] = useState(genSessionId);
-  const [questions, setQuestions] = useState([]);
-  const [current, setCurrent] = useState(0);
-  const [answers, setAnswers] = useState([]);
-  const [timeLeft, setTimeLeft] = useState(TIME_PER_Q);
-  const [warnings, setWarnings] = useState(0);
-  const [flagged, setFlagged] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const timerRef = useRef(null);
-  const qTimeRef = useRef(TIME_PER_Q);
-  const warnRef = useRef(0);
-
-  useEffect(() => {
-    loadWindow().then(win => {
-      if (isTestOpen(win)) setPhase("register");
-      else setPhase("closed");
-    });
-  }, []);
-
-  useEffect(() => {
-    if (phase !== "test") return;
-    const bump = () => {
-      warnRef.current += 1;
-      setWarnings(warnRef.current);
-      if (warnRef.current >= 3) setFlagged(true);
-    };
-    const onVis = () => { if (document.hidden) bump(); };
-    const onBlur = () => bump();
-    document.addEventListener("visibilitychange", onVis);
-    window.addEventListener("blur", onBlur);
-    return () => {
-      document.removeEventListener("visibilitychange", onVis);
-      window.removeEventListener("blur", onBlur);
-    };
-  }, [phase]);
-
-  useEffect(() => {
-    if (phase !== "test") return;
-    qTimeRef.current = TIME_PER_Q;
-    setTimeLeft(TIME_PER_Q);
-    clearInterval(timerRef.current);
-    timerRef.current = setInterval(() => {
-      qTimeRef.current -= 1;
-      setTimeLeft(qTimeRef.current);
-      if (qTimeRef.current <= 0) { clearInterval(timerRef.current); advance(null); }
-    }, 1000);
-    return () => clearInterval(timerRef.current);
-  }, [current, phase]);
-
-  const advance = useCallback((val) => {
-    clearInterval(timerRef.current);
-    setAnswers(prev => { const u = [...prev]; u[current] = val; return u; });
-    setCurrent(c => {
-      if (c + 1 < questions.length) return c + 1;
-      setTimeout(() => setPhase("done"), 50);
-      return c;
-    });
-  }, [current, questions.length]);
-
-  const startTest = () => {
-    setQuestions(shuffle(ALL_QUESTIONS));
-    setAnswers([]);
-    setCurrent(0);
-    warnRef.current = 0;
-    setWarnings(0);
-    setFlagged(false);
-    setPhase("test");
-  };
-
-  useEffect(() => {
-    if (phase !== "done" || saved || saving) return;
-    const sc = questions.reduce((a, q, i) => a + (answers[i] === q.answer ? 1 : 0), 0);
-    const pct = Math.round((sc / questions.length) * 100);
-    const record = {
-      sessionId, name, roll, className, mobile, score: sc, total: questions.length,
-      percentage: pct, grade: grade(pct),
-      warnings: warnRef.current, flagged: warnRef.current >= 3,
-      timestamp: Date.now(),
-      answers: questions.map((q, i) => ({
-        qid: q.id, question: q.en, hindi: q.hi, topic: q.topic,
-        correct: q.answer, given: answers[i],
-      })),
-    };
-    setSaving(true);
-    saveSubmission(record).then(() => { setSaving(false); setSaved(true); });
-  }, [phase]);
-
-  if (phase === "checking") return (
-    <div style={S.page}><div style={S.card}>
-      <div style={S.band}><span style={S.bandIcon}>⏳</span>
-        <div><div style={S.bandTitle}>Please wait...</div><div style={S.bandSub}>Checking exam availability</div></div>
-      </div>
-      <div style={{ padding: 40, textAlign: "center", color: "#888" }}>Loading...</div>
-    </div></div>
-  );
-
-  if (phase === "closed") return (
-    <div style={S.page}><div style={S.card}>
-      <div style={S.band}><span style={S.bandIcon}>🔒</span>
-        <div><div style={S.bandTitle}>Test Not Available</div><div style={S.bandSub}>परीक्षा उपलब्ध नहीं है</div></div>
-      </div>
-      <div style={S.body}>
-        <div style={{ textAlign: "center", padding: "20px 0", fontSize: 48 }}>🔒</div>
-        <p style={{ textAlign: "center", color: "#555", fontSize: 15, lineHeight: 1.6 }}>
-          The test is not currently active.<br />
-          <span style={{ color: "#888", fontSize: 13 }}>परीक्षा अभी सक्रिय नहीं है। कृपया निर्धारित समय पर पुनः प्रयास करें।</span>
-        </p>
-        <Btn onClick={onBack}>← Back to Home</Btn>
-      </div>
-    </div></div>
-  );
-
-  if (phase === "register") return (
-    <div style={S.page}><div style={S.card}>
-      <div style={S.band}><span style={S.bandIcon}>🕉️</span>
-        <div><div style={S.bandTitle}>Yoga &amp; Fitness Test</div><div style={S.bandSub}>Student Registration / छात्र पंजीकरण</div></div>
-      </div>
-      <div style={S.body}>
-        <Label>पूरा नाम / Full Name</Label>
-        <input style={S.input} placeholder="e.g. Priya Sharma" value={name} onChange={e => setName(e.target.value)} />
-        <Label>अनुक्रमांक / Roll Number</Label>
-        <input style={S.input} placeholder="e.g. 2024YF031" value={roll} onChange={e => setRoll(e.target.value)} />
-        <Label>कक्षा / Class</Label>
-        <input style={S.input} placeholder="e.g. B.Sc. I Year" value={className} onChange={e => setClassName(e.target.value)} />
-        <Label>मोबाइल नंबर / Mobile Number</Label>
-        <input style={S.input} placeholder="e.g. 9876543210" type="tel" maxLength={10} value={mobile} onChange={e => setMobile(e.target.value.replace(/\D/g, ""))} />
-        <div style={S.sessionPill}>Session ID: <b>{sessionId}</b> <span style={S.note}>(इसे नोट करें / note this)</span></div>
-        <Btn disabled={!name.trim() || !roll.trim() || !className.trim() || mobile.length !== 10} onClick={() => setPhase("instructions")}>Proceed to Instructions →</Btn>
-        <div style={S.backLink} onClick={onBack}>← Back to Home</div>
-      </div>
-    </div></div>
-  );
-
-  if (phase === "instructions") return (
-    <div style={S.page}><div style={S.card}>
-      <div style={S.band}><span style={S.bandIcon}>📋</span>
-        <div><div style={S.bandTitle}>निर्देश / Instructions</div><div style={S.bandSub}>शुरू करने से पहले पढ़ें</div></div>
-      </div>
-      <div style={S.body}>
-        {[
-          ["20 सत्य/असत्य प्रश्न हैं।", "20 True / False questions."],
-          [`प्रत्येक प्रश्न के लिए ${TIME_PER_Q} सेकंड हैं।`, `Each question has ${TIME_PER_Q} seconds.`],
-          ["प्रश्न यादृच्छिक क्रम में आएंगे।", "Questions are randomized for every student."],
-          ["एक बार उत्तर देने के बाद वापस नहीं जा सकते।", "You cannot go back to a previous question."],
-          ["टैब बदलने पर उल्लंघन दर्ज होगा।", "Switching tabs is recorded as a violation."],
-          ["3 उल्लंघन पर सत्र संदिग्ध चिह्नित होगा।", "3 violations will flag your submission."],
-          ["किसी पुस्तक या अन्य उपकरण का उपयोग न करें।", "Do not use books, notes, or other devices."],
-          ["परीक्षा समाप्त होने पर परिणाम स्वतः सुरक्षित हो जाएगा।", "Result is auto-saved after the last question."],
-        ].map(([h, e], i) => (
-          <div key={i} style={S.instrRow}>
-            <div style={S.instrNum}>{i + 1}</div>
-            <div>
-              <div style={{ fontSize: 13, color: "#2D1B69", fontWeight: 600 }}>{h}</div>
-              <div style={{ fontSize: 12, color: "#777" }}>{e}</div>
-            </div>
-          </div>
-        ))}
-        <div style={S.infoBox}>
-          नाम / Name: <b>{name}</b> &nbsp;|&nbsp; अनुक्रमांक / Roll: <b>{roll}</b><br/>
-          कक्षा / Class: <b>{className}</b> &nbsp;|&nbsp; Mobile: <b>{mobile}</b>
-        </div>
-        <Btn onClick={startTest}>▶ परीक्षा शुरू करें / Start Test Now</Btn>
-      </div>
-    </div></div>
-  );
-
-  if (phase === "test") {
-    const q = questions[current] || {};
-    const pct = (timeLeft / TIME_PER_Q) * 100;
-    const tc = timeLeft <= 7 ? "#e53935" : timeLeft <= 14 ? "#f5a623" : "#4a7c59";
-    return (
-      <div style={S.page}><div style={S.card}>
-        <div style={{ ...S.band, justifyContent: "space-between" }}>
-          <div>
-            <div style={S.bandTitle}>Yoga &amp; Fitness — Vocational</div>
-            <div style={S.bandSub}>{name} | {roll}</div>
-          </div>
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: 30, fontWeight: 900, color: tc, lineHeight: 1 }}>{timeLeft}s</div>
-            <div style={{ fontSize: 11, color: "#c0b0e8" }}>{current + 1} / {questions.length}</div>
-          </div>
-        </div>
-        <div style={S.timerBg}><div style={{ ...S.timerFill, width: `${pct}%`, background: tc }} /></div>
-        {warnings > 0 && (
-          <div style={S.warnBar}>
-            ⚠️ टैब परिवर्तन दर्ज ({warnings}/3){warnings >= 3 ? " — संदिग्ध चिह्नित!" : ""}
-            &nbsp;|&nbsp; Tab-switch detected ({warnings}/3){warnings >= 3 ? " — flagged!" : ""}
-          </div>
-        )}
-        <div style={S.topicTag}>{q.topic}</div>
-        <div style={S.qBox}>
-          <div style={S.qNum}>Q{current + 1}.</div>
-          <div>
-            <div style={S.qText}>{q.en}</div>
-            <div style={S.qTextHi}>{q.hi}</div>
-          </div>
-        </div>
-        <div style={S.btnRow}>
-          <button style={{ ...S.ansBtn, background: "#4a7c59" }} onClick={() => advance(true)}>✔ सत्य / TRUE</button>
-          <button style={{ ...S.ansBtn, background: "#e53935" }} onClick={() => advance(false)}>✘ असत्य / FALSE</button>
-        </div>
-        <div style={S.dots}>
-          {questions.map((_, i) => (
-            <div key={i} style={{ ...S.dot, background: i < current ? "#4a7c59" : i === current ? "#f5a623" : "#e0d8f0" }} />
-          ))}
-        </div>
-      </div></div>
-    );
-  }
-
-  if (phase === "done") return (
-    <div style={S.page}><div style={S.card}>
-      <div style={S.band}>
-        <span style={S.bandIcon}>✅</span>
-        <div><div style={S.bandTitle}>परीक्षा समाप्त / Test Submitted</div>
-          <div style={S.bandSub}>{name} | {roll} | {sessionId}</div>
-        </div>
-      </div>
-      <div style={S.body}>
-        <div style={{ textAlign: "center", padding: "28px 0 16px" }}>
-          <div style={{ fontSize: 64 }}>{saving ? "⏳" : "🎉"}</div>
-          <div style={{ fontSize: 20, fontWeight: 800, color: "#2D1B69", marginTop: 12 }}>
-            {saving ? "सुरक्षित हो रहा है..." : "परीक्षा सफलतापूर्वक जमा हो गई!"}
-          </div>
-          <div style={{ fontSize: 14, color: "#777", marginTop: 6 }}>
-            {saving ? "Saving your response..." : "Test submitted successfully!"}
-          </div>
-        </div>
-        {saved && (
-          <div style={S.savedBar}>
-            ✅ आपका उत्तर रिकॉर्ड कर लिया गया है। परिणाम शिक्षक द्वारा घोषित किया जाएगा।<br />
-            <span style={{ fontSize: 12 }}>Your response has been recorded. Results will be declared by the teacher.</span>
-          </div>
-        )}
-        <div style={{ ...S.sessionPill, marginTop: 16 }}>
-          Session ID: <b>{sessionId}</b>
-          <span style={S.note}> — इसे भविष्य के लिए नोट करें / keep this for reference</span>
-        </div>
-        <Btn onClick={onBack} style={{ marginTop: 20 }}>← Home पर वापस जाएं</Btn>
-      </div>
-    </div></div>
-  );
-
-  return null;
-}
-
-// ─── TEACHER DASHBOARD ────────────────────────────────────────────
-function TeacherDashboard({ onBack }) {
-  const [authed, setAuthed] = useState(false);
-  const [pw, setPw] = useState("");
-  const [pwErr, setPwErr] = useState(false);
-  const [subs, setSubs] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [expanded, setExpanded] = useState(null);
-  const [filter, setFilter] = useState("all");
-  const [activeTab, setActiveTab] = useState("results");
-  const [win, setWin] = useState(null);
-  const [winEnabled, setWinEnabled] = useState(false);
-  const [startDate, setStartDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [endTime, setEndTime] = useState("");
-  const [winSaving, setWinSaving] = useState(false);
-  const [winSaved, setWinSaved] = useState(false);
-
-  const login = () => {
-    if (pw === TEACHER_PASSWORD) { setAuthed(true); setPwErr(false); }
-    else setPwErr(true);
-  };
-
-  useEffect(() => {
-    if (!authed) return;
-    setLoading(true);
-    loadSubmissions().then(d => { setSubs(d); setLoading(false); });
-    loadWindow().then(w => {
-      if (w) {
-        setWin(w);
-        setWinEnabled(w.enabled);
-        if (w.startTs) {
-          const sd = new Date(w.startTs);
-          setStartDate(sd.toISOString().slice(0, 10));
-          setStartTime(sd.toTimeString().slice(0, 5));
-        }
-        if (w.endTs) {
-          const ed = new Date(w.endTs);
-          setEndDate(ed.toISOString().slice(0, 10));
-          setEndTime(ed.toTimeString().slice(0, 5));
-        }
-      }
-    });
-  }, [authed]);
-
-  const handleSaveWindow = async () => {
-    const startTs = new Date(`${startDate}T${startTime}`).getTime();
-    const endTs = new Date(`${endDate}T${endTime}`).getTime();
-    if (isNaN(startTs) || isNaN(endTs) || endTs <= startTs) {
-      alert("Please set valid start and end date/time. End must be after Start.");
-      return;
-    }
-    const newWin = { enabled: winEnabled, startTs, endTs };
-    setWinSaving(true);
-    await saveWindow(newWin);
-    setWin(newWin);
-    setWinSaving(false);
-    setWinSaved(true);
-    setTimeout(() => setWinSaved(false), 3000);
-  };
-
-  if (!authed) return (
-    <div style={S.page}><div style={S.card}>
-      <div style={S.band}><span style={S.bandIcon}>🔒</span>
-        <div><div style={S.bandTitle}>Teacher Dashboard</div><div style={S.bandSub}>Authorized access only</div></div>
-      </div>
-      <div style={S.body}>
-        <Label>Password</Label>
-        <input style={{ ...S.input, borderColor: pwErr ? "#e53935" : "#d0c8f0" }}
-          type="password" placeholder="Enter teacher password"
-          value={pw}
-          onChange={e => { setPw(e.target.value); setPwErr(false); }}
-          onKeyDown={e => e.key === "Enter" && login()}
-        />
-        {pwErr && <div style={{ color: "#e53935", fontSize: 13, marginTop: 6 }}>Incorrect password.</div>}
-        <Btn onClick={login}>Unlock Dashboard →</Btn>
-        <div style={S.backLink} onClick={onBack}>← Back to Home</div>
-      </div>
-    </div></div>
-  );
-
-  const filtered = filter === "flagged" ? subs.filter(s => s.flagged) : subs;
-  const avg = subs.length ? Math.round(subs.reduce((a, s) => a + s.percentage, 0) / subs.length) : 0;
-  const flagCount = subs.filter(s => s.flagged).length;
-  const gradeCount = { A: 0, B: 0, C: 0, F: 0 };
-  subs.forEach(s => { gradeCount[s.grade] = (gradeCount[s.grade] || 0) + 1; });
-  const currentStatus = windowStatus(win);
-
-  return (
-    <div style={S.page}><div style={S.card}>
-      <div style={S.band}>
-        <span style={S.bandIcon}>📊</span>
-        <div><div style={S.bandTitle}>Teacher Dashboard</div>
-          <div style={S.bandSub}>Yoga &amp; Fitness — Vocational Course</div>
-        </div>
-      </div>
-
-      <div style={S.tabStrip}>
-        <TabBtn active={activeTab === "results"} onClick={() => setActiveTab("results")}>📋 Results</TabBtn>
-        <TabBtn active={activeTab === "schedule"} onClick={() => setActiveTab("schedule")}>🕐 Exam Window</TabBtn>
-      </div>
-
-      <div style={S.body}>
-        {activeTab === "results" && (
-          loading ? (
-            <div style={{ textAlign: "center", padding: 40, color: "#888" }}>Loading submissions...</div>
-          ) : subs.length === 0 ? (
-            <div style={S.emptyBox}>
-              <div style={{ fontSize: 40, marginBottom: 10 }}>📭</div>
-              <div style={{ color: "#888", fontSize: 15 }}>No submissions yet. Students' results will appear here after they complete the test.</div>
-            </div>
-          ) : (
-            <>
-              <div style={S.summaryRow}>
-                {[
-                  { v: subs.length, l: "Total", c: "#2D1B69" },
-                  { v: `${avg}%`, l: "Avg Score", c: "#2d6a9f" },
-                  { v: flagCount, l: "Flagged", c: "#e53935" },
-                  { v: gradeCount.A || 0, l: "Grade A", c: "#4a7c59" },
-                ].map(s => (
-                  <div key={s.l} style={S.summaryBox}>
-                    <div style={{ fontWeight: 900, fontSize: 26, color: s.c }}>{s.v}</div>
-                    <div style={S.statLbl}>{s.l}</div>
-                  </div>
-                ))}
-              </div>
-
-              <SectionTitle>Grade Distribution</SectionTitle>
-              {["A", "B", "C", "F"].map(g => {
-                const cnt = gradeCount[g] || 0;
-                const w = subs.length ? Math.round((cnt / subs.length) * 100) : 0;
-                return (
-                  <div key={g} style={S.gradeBarRow}>
-                    <div style={{ width: 22, fontWeight: 700, color: gradeColor(g), fontSize: 14 }}>{g}</div>
-                    <div style={S.topicBarBg}><div style={{ ...S.topicBarFill, width: `${w}%`, background: gradeColor(g) }} /></div>
-                    <div style={{ width: 30, fontSize: 12, color: "#555", textAlign: "right" }}>{cnt}</div>
-                  </div>
-                );
-              })}
-
-              <div style={S.filterRow}>
-                <SectionTitle>Submissions</SectionTitle>
-                <div style={{ display: "flex", gap: 8 }}>
-                  <FilterBtn active={filter === "all"} onClick={() => setFilter("all")}>All ({subs.length})</FilterBtn>
-                  <FilterBtn active={filter === "flagged"} onClick={() => setFilter("flagged")}>🚨 Flagged ({flagCount})</FilterBtn>
-                </div>
-              </div>
-
-              <div style={S.tableHead}>
-                <div style={{ flex: 2 }}>Name / Roll</div>
-                <div style={{ flex: 1, textAlign: "center" }}>Score</div>
-                <div style={{ flex: 1, textAlign: "center" }}>Grade</div>
-                <div style={{ flex: 1, textAlign: "center" }}>Violations</div>
-                <div style={{ flex: 1.5, textAlign: "right" }}>Time</div>
-              </div>
-
-              {filtered.length === 0 && (
-                <div style={{ textAlign: "center", padding: 20, color: "#888", fontSize: 14 }}>No flagged submissions.</div>
-              )}
-
-              {filtered.map((s, idx) => (
-                <div key={s.sessionId}>
-                  <div style={{
-                    ...S.tableRow,
-                    background: s.flagged ? "#fff5f5" : idx % 2 === 0 ? "#faf8ff" : "#fff",
-                    borderLeft: s.flagged ? "4px solid #e53935" : "4px solid transparent",
-                    cursor: "pointer",
-                  }} onClick={() => setExpanded(expanded === s.sessionId ? null : s.sessionId)}>
-                    <div style={{ flex: 2 }}>
-                      <div style={{ fontWeight: 600, fontSize: 14, color: "#2D1B69" }}>{s.name}</div>
-                      <div style={{ fontSize: 11, color: "#888" }}>{s.roll} · {s.sessionId}</div>
-                      <div style={{ fontSize: 11, color: "#aaa" }}>{s.className} · 📱 {s.mobile}</div>
-                    </div>
-                    <div style={{ flex: 1, textAlign: "center", fontWeight: 700 }}>{s.score}/{s.total}</div>
-                    <div style={{ flex: 1, textAlign: "center", fontWeight: 800, color: gradeColor(s.grade), fontSize: 16 }}>{s.grade}</div>
-                    <div style={{ flex: 1, textAlign: "center" }}>
-                      <span style={{
-                        background: s.warnings >= 3 ? "#fde8e8" : s.warnings > 0 ? "#fff3cd" : "#e8f5e9",
-                        color: s.warnings >= 3 ? "#c62828" : s.warnings > 0 ? "#7a4f00" : "#2e7d32",
-                        borderRadius: 12, padding: "2px 10px", fontSize: 12, fontWeight: 600,
-                      }}>{s.warnings} {s.flagged ? "🚨" : ""}</span>
-                    </div>
-                    <div style={{ flex: 1.5, textAlign: "right", fontSize: 11, color: "#888" }}>{formatTime(s.timestamp)}</div>
-                  </div>
-                  {expanded === s.sessionId && (
-                    <div style={S.expandBox}>
-                      <SectionTitle>Answer Detail — {s.name} ({s.className}) · {s.mobile}</SectionTitle>
-                      {s.answers.map((a, i) => {
-                        const ok = a.given === a.correct;
-                        const skip = a.given === null || a.given === undefined;
-                        return (
-                          <div key={a.qid} style={{ ...S.revItem, borderLeftColor: skip ? "#bbb" : ok ? "#4a7c59" : "#e53935" }}>
-                            <div style={{ fontSize: 11, color: "#888", marginBottom: 2 }}>Q{i + 1} · {a.topic}</div>
-                            <div style={S.revQ}>{a.question}</div>
-                            <div style={{ fontSize: 12, color: "#999", marginBottom: 3, fontStyle: "italic" }}>{a.hindi}</div>
-                            <div style={S.revA}>
-                              <span style={{ color: "#4a7c59" }}>Correct: <b>{a.correct ? "TRUE" : "FALSE"}</b></span>
-                              &nbsp;·&nbsp;
-                              <span style={{ color: skip ? "#999" : ok ? "#4a7c59" : "#e53935" }}>
-                                Student: <b>{skip ? "No answer" : a.given ? "TRUE" : "FALSE"}</b>
-                              </span>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
-                </div>
-              ))}
-
-              <div style={{ marginTop: 20, padding: "12px 14px", background: "#f0edf9", borderRadius: 8, fontSize: 12, color: "#4a2080" }}>
-                💡 All records are stored in your Google Sheet. To delete records, edit the Sheet directly (Extensions → Apps Script project → linked Sheet).
-              </div>
-            </>
-          )
-        )}
-
-        {activeTab === "schedule" && (
-          <div>
-            <div style={{
-              padding: "12px 16px", borderRadius: 10, marginBottom: 16,
-              background: currentStatus === "open" ? "#e8f5e9" : currentStatus === "before" ? "#fff8e1" : "#f5f3fc",
-              borderLeft: `4px solid ${currentStatus === "open" ? "#4a7c59" : currentStatus === "before" ? "#f5a623" : "#aaa"}`,
-            }}>
-              <div style={{ fontWeight: 700, fontSize: 13, color: "#2D1B69", marginBottom: 4 }}>Current Exam Status</div>
-              {!win || !win.enabled
-                ? <div style={{ color: "#4a7c59", fontSize: 13 }}>✅ No restriction — Test is always open.</div>
-                : currentStatus === "open"
-                  ? <div style={{ color: "#4a7c59", fontSize: 13 }}>✅ Test is OPEN &nbsp;·&nbsp; Closes: <b>{formatTime(win.endTs)}</b></div>
-                  : currentStatus === "before"
-                  ? <div style={{ color: "#7a4f00", fontSize: 13 }}>⏳ Test opens: <b>{formatTime(win.startTs)}</b></div>
-                  : <div style={{ color: "#888", fontSize: 13 }}>🔒 Test window has ended.</div>
-              }
-            </div>
-
-            <SectionTitle>Set Exam Window</SectionTitle>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16, padding: "10px 14px", background: "#f5f3fc", borderRadius: 8 }}>
-              <input type="checkbox" id="winToggle" checked={winEnabled} onChange={e => setWinEnabled(e.target.checked)}
-                style={{ width: 18, height: 18, accentColor: "#2D1B69", cursor: "pointer" }} />
-              <label htmlFor="winToggle" style={{ fontSize: 14, fontWeight: 600, color: "#2D1B69", cursor: "pointer" }}>
-                Enable exam window restriction
-              </label>
-            </div>
-
-            {winEnabled && (
-              <>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                  <div><Label>Start Date</Label><input type="date" style={S.input} value={startDate} onChange={e => setStartDate(e.target.value)} /></div>
-                  <div><Label>Start Time</Label><input type="time" style={S.input} value={startTime} onChange={e => setStartTime(e.target.value)} /></div>
-                  <div><Label>End Date</Label><input type="date" style={S.input} value={endDate} onChange={e => setEndDate(e.target.value)} /></div>
-                  <div><Label>End Time</Label><input type="time" style={S.input} value={endTime} onChange={e => setEndTime(e.target.value)} /></div>
-                </div>
-                {startDate && startTime && endDate && endTime && (
-                  <div style={{ marginTop: 10, fontSize: 13, color: "#4a2080", background: "#f0edf9", padding: "8px 12px", borderRadius: 6 }}>
-                    📅 Window: <b>{new Date(`${startDate}T${startTime}`).toLocaleString("en-IN")}</b>
-                    &nbsp;→&nbsp;
-                    <b>{new Date(`${endDate}T${endTime}`).toLocaleString("en-IN")}</b>
-                  </div>
-                )}
-              </>
-            )}
-
-            {!winEnabled && (
-              <div style={{ fontSize: 13, color: "#888", padding: "8px 12px", background: "#f5f3fc", borderRadius: 6 }}>
-                When disabled, the test is accessible to students at all times.
-              </div>
-            )}
-
-            <Btn onClick={handleSaveWindow} disabled={winSaving}>
-              {winSaving ? "Saving..." : "💾 Save Exam Window"}
-            </Btn>
-            {winSaved && <div style={{ ...S.savedBar, marginTop: 10 }}>✅ Exam window saved successfully!</div>}
-
-            <div style={{ marginTop: 20, padding: "12px 14px", background: "#fff8e1", borderRadius: 8, borderLeft: "4px solid #f5a623" }}>
-              <div style={{ fontWeight: 700, fontSize: 13, color: "#7a4f00", marginBottom: 6 }}>ℹ️ How it works</div>
-              <div style={{ fontSize: 12, color: "#555", lineHeight: 1.7 }}>
-                • Set a start date/time and end date/time.<br />
-                • Students who open the test before the window will see a "Not Available" screen.<br />
-                • Students who open the test after the window will also be blocked.<br />
-                • This is saved in the "Config" tab of your Google Sheet — you can also edit it there directly.<br />
-                • Uncheck "Enable exam window restriction" to make the test always available.
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div style={S.backLink} onClick={onBack}>← Back to Home</div>
-      </div>
-    </div></div>
-  );
-}
-
-// ─── SMALL COMPONENTS ─────────────────────────────────────────────
-function Label({ children }) {
-  return <p style={{ fontSize: 13, fontWeight: 600, color: "#555", marginBottom: 5, marginTop: 14 }}>{children}</p>;
-}
-function SectionTitle({ children }) {
-  return <div style={{ fontSize: 12, fontWeight: 700, color: "#4a2080", textTransform: "uppercase", letterSpacing: 0.8, marginTop: 20, marginBottom: 10, borderBottom: "2px solid #e0d8f0", paddingBottom: 5 }}>{children}</div>;
-}
-function Btn({ children, onClick, disabled, style = {} }) {
-  return (
-    <button style={{
-      marginTop: 18, width: "100%", padding: "13px",
-      background: "linear-gradient(90deg,#F5A623,#e8891a)",
-      color: "#2D1B69", fontWeight: 700, fontSize: 15, border: "none",
-      borderRadius: 10, cursor: disabled ? "not-allowed" : "pointer",
-      opacity: disabled ? 0.45 : 1, ...style,
-    }} disabled={disabled} onClick={onClick}>{children}</button>
-  );
-}
-function FilterBtn({ children, active, onClick }) {
-  return (
-    <button onClick={onClick} style={{
-      padding: "4px 12px", borderRadius: 20, border: "1.5px solid #d0c8f0",
-      cursor: "pointer", background: active ? "#2D1B69" : "#fff",
-      color: active ? "#fff" : "#555", fontSize: 12, fontWeight: 600,
-    }}>{children}</button>
-  );
-}
-function TabBtn({ children, active, onClick }) {
-  return (
-    <button onClick={onClick} style={{
-      flex: 1, padding: "10px", border: "none", cursor: "pointer",
-      background: active ? "#FAF8F2" : "#f0edf9",
-      color: active ? "#2D1B69" : "#888",
-      fontWeight: active ? 700 : 500, fontSize: 13,
-      borderBottom: active ? "3px solid #F5A623" : "3px solid transparent",
-    }}>{children}</button>
-  );
-}
-
-// ─── STYLES ───────────────────────────────────────────────────────
-const S = {
-  root: { minHeight: "100vh", background: "linear-gradient(135deg,#2D1B69 0%,#4a2080 50%,#1a3a5c 100%)" },
-  page: { minHeight: "100vh", display: "flex", alignItems: "flex-start", justifyContent: "center", padding: "24px 12px", fontFamily: "'Segoe UI',system-ui,sans-serif" },
-  card: { background: "#FAF8F2", borderRadius: 16, width: "100%", maxWidth: 660, boxShadow: "0 24px 64px rgba(0,0,0,0.35)", overflow: "hidden" },
-  homeCard: { background: "#FAF8F2", borderRadius: 16, width: "100%", maxWidth: 520, boxShadow: "0 24px 64px rgba(0,0,0,0.35)", overflow: "hidden", margin: "auto" },
-  homeBand: { background: "linear-gradient(90deg,#F5A623,#e8891a)", padding: "28px 24px", textAlign: "center" },
-  omBig: { fontSize: 48, display: "block", marginBottom: 8 },
-  homeTitle: { fontSize: 26, fontWeight: 900, color: "#2D1B69" },
-  homeSub: { fontSize: 14, color: "#4a2080", marginTop: 4 },
-  homeInst: { fontSize: 13, color: "#7a5000", marginTop: 6 },
-  homeBody: { padding: "28px 24px", display: "flex", flexDirection: "column", gap: 16 },
-  bigBtn: { display: "flex", alignItems: "center", gap: 16, padding: "18px 20px", borderRadius: 12, border: "none", cursor: "pointer", color: "#fff", textAlign: "left", width: "100%" },
-  bigBtnIcon: { fontSize: 32, flexShrink: 0 },
-  bigBtnTitle: { fontSize: 17, fontWeight: 700 },
-  bigBtnSub: { fontSize: 12, opacity: 0.8, marginTop: 3 },
-  band: { background: "linear-gradient(90deg,#F5A623,#e8891a)", padding: "16px 22px", display: "flex", alignItems: "center", gap: 14 },
-  bandIcon: { fontSize: 32 },
-  bandTitle: { fontSize: 18, fontWeight: 700, color: "#2D1B69" },
-  bandSub: { fontSize: 12, color: "#4a2080", marginTop: 2 },
-  tabStrip: { display: "flex", background: "#f0edf9", borderBottom: "1px solid #e0d8f0" },
-  body: { padding: "22px 26px" },
-  input: { width: "100%", padding: "10px 13px", borderRadius: 8, border: "1.5px solid #d0c8f0", fontSize: 15, background: "#fff", boxSizing: "border-box", color: "#2D1B69", outline: "none" },
-  sessionPill: { marginTop: 14, padding: "9px 13px", background: "#f0edf9", borderRadius: 8, fontSize: 13, color: "#4a2080", border: "1px dashed #c0b0e8" },
-  note: { color: "#aaa", fontSize: 11 },
-  backLink: { display: "block", textAlign: "center", marginTop: 16, color: "#888", fontSize: 13, cursor: "pointer" },
-  instrRow: { display: "flex", gap: 12, alignItems: "flex-start", marginBottom: 10, lineHeight: 1.5 },
-  instrNum: { minWidth: 24, height: 24, borderRadius: "50%", background: "#2D1B69", color: "#fff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, flexShrink: 0, marginTop: 2 },
-  infoBox: { background: "#f0edf9", borderRadius: 8, padding: "9px 13px", fontSize: 13, color: "#4a2080", marginTop: 14 },
-  timerBg: { height: 6, background: "#e0d8f0" },
-  timerFill: { height: 6, transition: "width 1s linear, background 0.5s" },
-  warnBar: { background: "#fff3cd", borderLeft: "4px solid #f5a623", padding: "7px 16px", fontSize: 12, color: "#7a4f00" },
-  topicTag: { display: "inline-block", margin: "14px 20px 0", padding: "3px 11px", background: "#e8e4f0", borderRadius: 20, fontSize: 11, fontWeight: 600, color: "#4a2080", textTransform: "uppercase" },
-  qBox: { margin: "10px 20px 18px", display: "flex", gap: 10, alignItems: "flex-start" },
-  qNum: { fontWeight: 800, color: "#f5a623", fontSize: 18, minWidth: 30, flexShrink: 0, paddingTop: 2 },
-  qText: { fontSize: 16, color: "#1a1030", lineHeight: 1.55, fontWeight: 500, marginBottom: 6 },
-  qTextHi: { fontSize: 14, color: "#4a2080", lineHeight: 1.6, fontWeight: 500 },
-  btnRow: { display: "flex", gap: 12, padding: "0 20px 18px" },
-  ansBtn: { flex: 1, padding: "13px", borderRadius: 10, border: "none", fontSize: 15, fontWeight: 700, cursor: "pointer", color: "#fff" },
-  dots: { display: "flex", flexWrap: "wrap", gap: 5, padding: "0 20px 16px" },
-  dot: { width: 10, height: 10, borderRadius: "50%", transition: "background 0.3s" },
-  savedBar: { background: "#e8f5e9", padding: "10px 13px", fontSize: 13, color: "#2e7d32", borderRadius: 6, lineHeight: 1.6 },
-  statLbl: { fontSize: 11, color: "#888", marginTop: 3, fontWeight: 600 },
-  summaryRow: { display: "flex", gap: 10, marginBottom: 4 },
-  summaryBox: { flex: 1, background: "#f5f3fc", borderRadius: 10, padding: "12px 8px", textAlign: "center", border: "1px solid #e0d8f0" },
-  gradeBarRow: { display: "flex", alignItems: "center", gap: 10, marginBottom: 7 },
-  filterRow: { display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 4 },
-  topicBarBg: { flex: 1, height: 8, background: "#e0d8f0", borderRadius: 4, overflow: "hidden" },
-  topicBarFill: { height: 8, background: "linear-gradient(90deg,#4a7c59,#6ab04c)", borderRadius: 4 },
-  tableHead: { display: "flex", background: "#2D1B69", color: "#c0b0e8", fontSize: 11, fontWeight: 700, padding: "8px 14px", borderRadius: "8px 8px 0 0", textTransform: "uppercase", letterSpacing: 0.5 },
-  tableRow: { display: "flex", alignItems: "center", padding: "10px 14px", borderBottom: "1px solid #ede8f8" },
-  expandBox: { background: "#f8f5ff", padding: "12px 16px", borderBottom: "2px solid #e0d8f0" },
-  revItem: { padding: "9px 11px", borderRadius: 6, marginBottom: 7, background: "#fff", border: "1px solid #e8e4f0", borderLeft: "4px solid #bbb" },
-  revQ: { fontSize: 13, color: "#333", lineHeight: 1.4, marginBottom: 3 },
-  revA: { fontSize: 12, color: "#666" },
-  emptyBox: { textAlign: "center", padding: "40px 20px", color: "#aaa" },
-  code: { background: "#f0edf9", padding: "1px 6px", borderRadius: 4, color: "#4a2080", fontFamily: "monospace" },
+// ── state ─────────────────────────────────────────────────────
+let STATE = {
+  mode:"home",          // home | test | teacher
+  testPhase:"checking", // checking | closed | register | instructions | test | done
+  teacherTab:"results", // results | schedule
+  name:"",roll:"",className:"",mobile:"",
+  sessionId:genId(),
+  questions:[],current:0,answers:[],
+  timeLeft:TIME_PER_Q,warnings:0,flagged:false,
+  saving:false,saved:false,
+  authed:false,pw:"",pwErr:false,
+  subs:[],subsLoading:false,
+  expandedId:null,filter:"all",
+  win:null,winEnabled:false,
+  startDate:"",startTime:"",endDate:"",endTime:"",
+  winSaving:false,winSaved:false,
+  confirmClear:false,
 };
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+let timerInterval=null;
+let warnCount=0;
+
+// ── render engine ─────────────────────────────────────────────
+function el(tag,attrs,...children){
+  const e=document.createElement(tag);
+  if(attrs)Object.entries(attrs).forEach(([k,v])=>{
+    if(k==="class")e.className=v;
+    else if(k==="style"&&typeof v==="object")Object.assign(e.style,v);
+    else if(k.startsWith("on"))e.addEventListener(k.slice(2).toLowerCase(),v);
+    else e.setAttribute(k,v);
+  });
+  children.flat().forEach(c=>{
+    if(c==null||c===false)return;
+    e.appendChild(typeof c==="string"?document.createTextNode(c):c);
+  });
+  return e;
+}
+function render(){
+  const root=document.getElementById("root");
+  root.innerHTML="";
+  root.appendChild(buildView());
+}
+function setState(patch,rerender=true){
+  Object.assign(STATE,patch);
+  if(rerender)render();
+}
+
+// ── VIEWS ─────────────────────────────────────────────────────
+
+function buildView(){
+  if(!CONFIGURED)return buildSetupWarn();
+  if(STATE.mode==="home")return buildHome();
+  if(STATE.mode==="test")return buildTest();
+  if(STATE.mode==="teacher")return buildTeacher();
+}
+
+function buildSetupWarn(){
+  return el("div",{class:"card"},
+    el("div",{class:"band"},el("span",{class:"band-icon"},"⚠️"),
+      el("div",null,el("div",{class:"band-title"},"Setup Required"),el("div",{class:"band-sub"},"Backend not connected"))),
+    el("div",{class:"body"},
+      el("div",{class:"setup-warn"},
+        "Open ",el("code",null,"index.html")," in a text editor. Find ",
+        el("code",null,"GOOGLE_SCRIPT_URL")," near the top of the script, and replace ",
+        el("code",null,"PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE")," with your deployed Google Apps Script URL. ",
+        "Then re-upload the file to GitHub."
+      )
+    )
+  );
+}
+
+function buildHome(){
+  const status=winStatus(STATE.win);
+  const noticeColor={open:"#e8f5e9",before:"#fff8e1",after:"#fde8e8"}[status];
+  const noticeBorder={open:"#4a7c59",before:"#f5a623",after:"#e53935"}[status];
+  const noticeText={open:"#2e7d32",before:"#7a4f00",after:"#b71c1c"}[status];
+  const noticeMsg=STATE.win&&STATE.win.enabled ? (
+    status==="open"?`✅ Test is OPEN until ${fmtTime(STATE.win.endTs)}`:
+    status==="before"?`⏳ Test opens on ${fmtTime(STATE.win.startTs)}`:
+    `🔒 Test window has closed (ended ${fmtTime(STATE.win.endTs)})`
+  ):null;
+
+  const testBg=status==="open"?"linear-gradient(135deg,#4a7c59,#2d5e40)":"linear-gradient(135deg,#aaa,#888)";
+
+  return el("div",null,
+    el("div",{class:"card"},
+      el("div",{class:"home-band"},
+        el("div",{style:{fontSize:"48px",marginBottom:"8px"}},"🕉️"),
+        el("div",{class:"home-title"},"Yoga & Fitness"),
+        el("div",{class:"home-sub"},"Vocational Course — Online Assessment Portal"),
+        el("div",{class:"home-inst"},"श्री लाल बहादुर शास्त्री डिग्री कॉलेज, गोण्डा")
+      ),
+      el("div",{class:"home-body"},
+        noticeMsg?el("div",{style:{padding:"10px 14px",borderRadius:"8px",fontSize:"13px",background:noticeColor,borderLeft:`4px solid ${noticeBorder}`,color:noticeText}},noticeMsg):"",
+        el("button",{class:"big-btn",style:{background:testBg,cursor:status==="open"?"pointer":"not-allowed"},
+          onClick:status==="open"?()=>goTest():null},
+          el("span",{class:"big-btn-icon"},"📝"),
+          el("span",null,
+            el("div",{class:"big-btn-title"},"परीक्षा दें / Take the Test"),
+            el("div",{class:"big-btn-sub"},"20 प्रश्न · 20 सेकंड प्रति प्रश्न")
+          )
+        ),
+        el("button",{class:"big-btn",style:{background:"linear-gradient(135deg,#2D1B69,#4a2080)"},onClick:()=>goTeacher()},
+          el("span",{class:"big-btn-icon"},"📊"),
+          el("span",null,
+            el("div",{class:"big-btn-title"},"Teacher Dashboard"),
+            el("div",{class:"big-btn-sub"},"View all submissions & manage exam window")
+          )
+        )
+      )
+    )
+  );
+}
+
+function buildTest(){
+  const p=STATE.testPhase;
+  if(p==="checking")return buildCard("⏳","Please wait...","Checking exam availability",
+    el("div",{style:{padding:"40px",textAlign:"center",color:"#888"}},"Loading..."));
+  if(p==="closed")return buildCard("🔒","Test Not Available","परीक्षा उपलब्ध नहीं है",
+    el("div",{class:"body"},
+      el("div",{style:{textAlign:"center",padding:"20px 0",fontSize:"48px"}},"🔒"),
+      el("p",{style:{textAlign:"center",color:"#555",fontSize:"15px",lineHeight:"1.6"}},
+        "The test is not currently active.",el("br"),
+        el("span",{style:{color:"#888",fontSize:"13px"}},"परीक्षा अभी सक्रिय नहीं है।")),
+      btn("← Back to Home",()=>setState({mode:"home"}))
+    ));
+  if(p==="register")return buildRegisterView();
+  if(p==="instructions")return buildInstructionsView();
+  if(p==="test")return buildTestView();
+  if(p==="done")return buildDoneView();
+}
+
+function buildRegisterView(){
+  const canProceed=STATE.name.trim()&&STATE.roll.trim()&&STATE.className.trim()&&STATE.mobile.length===10;
+  return buildCard("🕉️","Yoga & Fitness Test","Student Registration / छात्र पंजीकरण",
+    el("div",{class:"body"},
+      lbl("पूरा नाम / Full Name"),
+      inp("text",STATE.name,v=>setState({name:v},false),{placeholder:"e.g. Priya Sharma"}),
+      lbl("अनुक्रमांक / Roll Number"),
+      inp("text",STATE.roll,v=>setState({roll:v},false),{placeholder:"e.g. 2024YF031"}),
+      lbl("कक्षा / Class"),
+      inp("text",STATE.className,v=>setState({className:v},false),{placeholder:"e.g. B.Sc. I Year"}),
+      lbl("मोबाइल नंबर / Mobile Number"),
+      inp("tel",STATE.mobile,v=>setState({mobile:v.replace(/\D/g,"").slice(0,10)},false),{placeholder:"e.g. 9876543210"}),
+      el("div",{class:"session-pill"},"Session ID: ",el("b",null,STATE.sessionId)," ",el("span",{style:{color:"#aaa",fontSize:"11px"}},"(इसे नोट करें)")),
+      btn("Proceed to Instructions →",()=>setState({testPhase:"instructions"}),!canProceed),
+      el("div",{class:"back-link",onClick:()=>setState({mode:"home"})},"← Back to Home")
+    )
+  );
+}
+
+function buildInstructionsView(){
+  const steps=[
+    ["20 सत्य/असत्य प्रश्न हैं।","20 True / False questions."],
+    [`प्रत्येक प्रश्न के लिए ${TIME_PER_Q} सेकंड हैं।`,`Each question has ${TIME_PER_Q} seconds.`],
+    ["प्रश्न यादृच्छिक क्रम में आएंगे।","Questions are randomized for every student."],
+    ["एक बार उत्तर देने के बाद वापस नहीं जा सकते।","You cannot go back to a previous question."],
+    ["टैब बदलने पर उल्लंघन दर्ज होगा।","Switching tabs is recorded as a violation."],
+    ["3 उल्लंघन पर सत्र संदिग्ध चिह्नित होगा।","3 violations will flag your submission."],
+    ["किसी पुस्तक या उपकरण का उपयोग न करें।","Do not use books, notes, or other devices."],
+    ["परीक्षा समाप्त होने पर परिणाम स्वतः सुरक्षित होगा।","Result is auto-saved after the last question."],
+  ];
+  return buildCard("📋","निर्देश / Instructions","शुरू करने से पहले पढ़ें",
+    el("div",{class:"body"},
+      ...steps.map(([h,e],i)=>
+        el("div",{class:"instr-row"},
+          el("div",{class:"instr-num"},String(i+1)),
+          el("div",null,el("div",{class:"instr-en"},h),el("div",{class:"instr-hi"},e))
+        )
+      ),
+      el("div",{class:"info-box"},
+        `नाम: `,el("b",null,STATE.name),` | Roll: `,el("b",null,STATE.roll),el("br"),
+        `Class: `,el("b",null,STATE.className),` | Mobile: `,el("b",null,STATE.mobile)
+      ),
+      btn("▶ परीक्षा शुरू करें / Start Test Now",startTest)
+    )
+  );
+}
+
+function buildTestView(){
+  const q=STATE.questions[STATE.current]||{};
+  const pct=(STATE.timeLeft/TIME_PER_Q)*100;
+  const tc=STATE.timeLeft<=7?"#e53935":STATE.timeLeft<=14?"#f5a623":"#4a7c59";
+  const dots=STATE.questions.map((_,i)=>{
+    const bg=i<STATE.current?"#4a7c59":i===STATE.current?"#f5a623":"#e0d8f0";
+    return el("div",{class:"dot",style:{background:bg}});
+  });
+  return el("div",null,
+    el("div",{class:"card"},
+      el("div",{class:"band band-row"},
+        el("div",null,
+          el("div",{class:"band-title"},"Yoga & Fitness — Vocational"),
+          el("div",{class:"band-sub"},STATE.name," | ",STATE.roll)
+        ),
+        el("div",{style:{textAlign:"right"}},
+          el("div",{class:"timer-num",style:{color:tc}},STATE.timeLeft+"s"),
+          el("div",{style:{fontSize:"11px",color:"#c0b0e8"}},(STATE.current+1)+" / "+STATE.questions.length)
+        )
+      ),
+      el("div",{class:"timer-bg"},el("div",{class:"timer-fill",style:{width:pct+"%",background:tc}})),
+      STATE.warnings>0?el("div",{class:"warn-bar"},
+        `⚠️ टैब परिवर्तन दर्ज (${STATE.warnings}/3)${STATE.warnings>=3?" — संदिग्ध चिह्नित!":""} | Tab-switch (${STATE.warnings}/3)${STATE.warnings>=3?" — flagged!":""}`):"",
+      el("div",{class:"topic-tag"},q.topic||""),
+      el("div",{class:"q-box"},
+        el("div",{class:"q-num"},"Q"+(STATE.current+1)+"."),
+        el("div",null,
+          el("div",{class:"q-en"},q.en||""),
+          el("div",{class:"q-hi"},q.hi||"")
+        )
+      ),
+      el("div",{class:"ans-row"},
+        el("button",{class:"btn-true",onClick:()=>advance(true)},"✔ सत्य / TRUE"),
+        el("button",{class:"btn-false",onClick:()=>advance(false)},"✘ असत्य / FALSE")
+      ),
+      el("div",{class:"dots"},...dots)
+    )
+  );
+}
+
+function buildDoneView(){
+  return buildCard("✅","परीक्षा समाप्त / Test Submitted",`${STATE.name} | ${STATE.roll} | ${STATE.sessionId}`,
+    el("div",{class:"body"},
+      el("div",{style:{textAlign:"center",padding:"28px 0 16px"}},
+        el("div",{style:{fontSize:"64px"}},STATE.saving?"⏳":"🎉"),
+        el("div",{style:{fontSize:"20px",fontWeight:"800",color:"#2D1B69",marginTop:"12px"}},
+          STATE.saving?"सुरक्षित हो रहा है...":"परीक्षा सफलतापूर्वक जमा हो गई!"),
+        el("div",{style:{fontSize:"14px",color:"#777",marginTop:"6px"}},
+          STATE.saving?"Saving your response...":"Test submitted successfully!")
+      ),
+      STATE.saved?el("div",{class:"saved-bar"},
+        "✅ आपका उत्तर रिकॉर्ड कर लिया गया है। परिणाम शिक्षक द्वारा घोषित किया जाएगा।",el("br"),
+        el("span",{style:{fontSize:"12px"}},"Your response has been recorded. Results will be declared by the teacher.")
+      ):"",
+      el("div",{class:"session-pill",style:{marginTop:"16px"}},"Session ID: ",el("b",null,STATE.sessionId),
+        " ",el("span",{style:{color:"#aaa",fontSize:"11px"}},"— इसे भविष्य के लिए नोट करें")),
+      btn("← Home पर वापस जाएं",()=>setState({mode:"home"}),false,{marginTop:"20px"})
+    )
+  );
+}
+
+// ── TEACHER VIEWS ─────────────────────────────────────────────
+
+function buildTeacher(){
+  if(!STATE.authed)return buildTeacherLogin();
+  return buildDashboard();
+}
+
+function buildTeacherLogin(){
+  return buildCard("🔒","Teacher Dashboard","Authorized access only",
+    el("div",{class:"body"},
+      lbl("Password"),
+      el("input",{type:"password",placeholder:"Enter teacher password",value:STATE.pw,
+        style:{borderColor:STATE.pwErr?"#e53935":"#d0c8f0"},
+        onInput:e=>setState({pw:e.target.value,pwErr:false},false),
+        onKeydown:e=>{if(e.key==="Enter")doLogin();}
+      }),
+      STATE.pwErr?el("div",{class:"pw-err"},"Incorrect password."):"",
+      btn("Unlock Dashboard →",doLogin),
+      el("div",{class:"back-link",onClick:()=>setState({mode:"home"})},"← Back to Home")
+    )
+  );
+}
+
+function buildDashboard(){
+  const subs=STATE.subs;
+  const avg=subs.length?Math.round(subs.reduce((a,s)=>a+s.percentage,0)/subs.length):0;
+  const flagCount=subs.filter(s=>s.flagged).length;
+  const gc={A:0,B:0,C:0,F:0};
+  subs.forEach(s=>{gc[s.grade]=(gc[s.grade]||0)+1;});
+  const status=winStatus(STATE.win);
+
+  return el("div",null,
+    el("div",{class:"card"},
+      el("div",{class:"band"},
+        el("span",{class:"band-icon"},"📊"),
+        el("div",null,el("div",{class:"band-title"},"Teacher Dashboard"),el("div",{class:"band-sub"},"Yoga & Fitness — Vocational Course"))
+      ),
+      el("div",{class:"tab-strip"},
+        el("button",{class:"tab-btn"+(STATE.teacherTab==="results"?" active":""),onClick:()=>setState({teacherTab:"results"})},"📋 Results"),
+        el("button",{class:"tab-btn"+(STATE.teacherTab==="schedule"?" active":""),onClick:()=>setState({teacherTab:"schedule"})},"🕐 Exam Window")
+      ),
+      el("div",{class:"body"},
+        STATE.teacherTab==="results"?buildResultsTab(subs,avg,flagCount,gc):buildScheduleTab(status),
+        el("div",{class:"back-link",onClick:()=>setState({mode:"home"})},"← Back to Home")
+      )
+    )
+  );
+}
+
+function buildResultsTab(subs,avg,flagCount,gc){
+  if(STATE.subsLoading)return el("div",{style:{textAlign:"center",padding:"40px",color:"#888"}},"Loading submissions...");
+  if(subs.length===0)return el("div",{class:"empty-box"},el("div",{style:{fontSize:"40px",marginBottom:"10px"}},"📭"),el("div",null,"No submissions yet."));
+
+  const filtered=STATE.filter==="flagged"?subs.filter(s=>s.flagged):subs;
+
+  const rows=filtered.map((s,idx)=>{
+    const isExpanded=STATE.expandedId===s.sessionId;
+    const rowClass="table-row"+(s.flagged?" flagged":(idx%2===0?" even":""));
+    const vBg=s.warnings>=3?"#fde8e8":s.warnings>0?"#fff3cd":"#e8f5e9";
+    const vColor=s.warnings>=3?"#c62828":s.warnings>0?"#7a4f00":"#2e7d32";
+
+    const rowEl=el("div",{class:rowClass,onClick:()=>setState({expandedId:isExpanded?null:s.sessionId})},
+      el("div",{style:{flex:"2"}},
+        el("div",{style:{fontWeight:"600",fontSize:"14px",color:"#2D1B69"}},s.name),
+        el("div",{style:{fontSize:"11px",color:"#888"}},s.roll+" · "+s.sessionId),
+        el("div",{style:{fontSize:"11px",color:"#aaa"}},(s.className||"")+" · 📱 "+(s.mobile||""))
+      ),
+      el("div",{style:{flex:"1",textAlign:"center",fontWeight:"700"}},s.score+"/"+s.total),
+      el("div",{style:{flex:"1",textAlign:"center",fontWeight:"800",color:gradeColor(s.grade),fontSize:"16px"}},s.grade),
+      el("div",{style:{flex:"1",textAlign:"center"}},
+        el("span",{class:"violation-badge",style:{background:vBg,color:vColor}},s.warnings+(s.flagged?" 🚨":""))
+      ),
+      el("div",{style:{flex:"1.5",textAlign:"right",fontSize:"11px",color:"#888"}},fmtTime(s.timestamp))
+    );
+
+    const parts=[rowEl];
+    if(isExpanded){
+      const ansEls=(s.answers||[]).map((a,i)=>{
+        const ok=a.given===a.correct;const skip=a.given===null||a.given===undefined;
+        const bc=skip?"#bbb":ok?"#4a7c59":"#e53935";
+        return el("div",{class:"rev-item",style:{borderLeftColor:bc}},
+          el("div",{style:{fontSize:"11px",color:"#888",marginBottom:"2px"}},"Q"+(i+1)+" · "+a.topic),
+          el("div",{class:"rev-q"},a.question),
+          el("div",{class:"rev-hi"},a.hindi||""),
+          el("div",{class:"rev-a"},
+            el("span",{style:{color:"#4a7c59"}},"Correct: ",el("b",null,a.correct?"TRUE":"FALSE")),
+            " · ",
+            el("span",{style:{color:skip?"#999":ok?"#4a7c59":"#e53935"}},"Student: ",el("b",null,skip?"No answer":a.given?"TRUE":"FALSE"))
+          )
+        );
+      });
+      parts.push(el("div",{class:"expand-box"},
+        el("div",{class:"section-title"},"Answer Detail — "+s.name+" ("+s.className+") · "+s.mobile),
+        ...ansEls
+      ));
+    }
+    return el("div",null,...parts);
+  });
+
+  const clearSection=STATE.confirmClear?
+    el("div",{class:"confirm-row"},
+      el("span",{style:{fontSize:"13px",color:"#e53935"}},"Delete all "+subs.length+" records?"),
+      el("button",{class:"clear-btn",onClick:doClear},"Yes, Delete"),
+      el("button",{class:"clear-btn",style:{background:"#eee",color:"#555"},onClick:()=>setState({confirmClear:false})},"Cancel")
+    ):
+    el("div",{style:{marginTop:"16px",textAlign:"right"}},
+      el("button",{class:"clear-btn",onClick:()=>setState({confirmClear:true})},"🗑 Clear All Records")
+    );
+
+  return el("div",null,
+    el("div",{class:"summary-row"},
+      ...[{v:subs.length,l:"Total",c:"#2D1B69"},{v:avg+"%",l:"Avg Score",c:"#2d6a9f"},{v:flagCount,l:"Flagged",c:"#e53935"},{v:gc.A||0,l:"Grade A",c:"#4a7c59"}]
+        .map(s=>el("div",{class:"summary-box"},el("div",{class:"stat-val",style:{color:s.c}},String(s.v)),el("div",{class:"stat-lbl"},s.l)))
+    ),
+    el("div",{class:"section-title"},"Grade Distribution"),
+    ...["A","B","C","F"].map(g=>{
+      const cnt=gc[g]||0;const w=subs.length?Math.round((cnt/subs.length)*100):0;
+      return el("div",{class:"grade-bar-row"},
+        el("div",{style:{width:"22px",fontWeight:"700",color:gradeColor(g),fontSize:"14px"}},g),
+        el("div",{class:"bar-bg"},el("div",{class:"bar-fill",style:{width:w+"%",background:gradeColor(g)}})),
+        el("div",{style:{width:"30px",fontSize:"12px",color:"#555",textAlign:"right"}},String(cnt))
+      );
+    }),
+    el("div",{class:"filter-row"},
+      el("div",{class:"section-title"},"Submissions"),
+      el("div",{class:"filter-btns"},
+        el("button",{class:"filter-btn"+(STATE.filter==="all"?" active":""),onClick:()=>setState({filter:"all"})},"All ("+subs.length+")"),
+        el("button",{class:"filter-btn"+(STATE.filter==="flagged"?" active":""),onClick:()=>setState({filter:"flagged"})},"🚨 Flagged ("+flagCount+")")
+      )
+    ),
+    el("div",{class:"table-head"},
+      el("div",{style:{flex:"2"}},"Name / Roll"),
+      el("div",{style:{flex:"1",textAlign:"center"}},"Score"),
+      el("div",{style:{flex:"1",textAlign:"center"}},"Grade"),
+      el("div",{style:{flex:"1",textAlign:"center"}},"Violations"),
+      el("div",{style:{flex:"1.5",textAlign:"right"}},"Time")
+    ),
+    filtered.length===0?el("div",{style:{textAlign:"center",padding:"20px",color:"#888",fontSize:"14px"}},"No flagged submissions."):"",
+    ...rows,
+    clearSection
+  );
+}
+
+function buildScheduleTab(status){
+  const sColor={open:"#e8f5e9",before:"#fff8e1",after:"#f5f3fc"}[status];
+  const sBorder={open:"#4a7c59",before:"#f5a623",after:"#aaa"}[status];
+  const statusMsg=!STATE.win||!STATE.win.enabled?"✅ No restriction — Test is always open.":
+    status==="open"?`✅ Test is OPEN · Closes: ${fmtTime(STATE.win.endTs)}`:
+    status==="before"?`⏳ Test opens: ${fmtTime(STATE.win.startTs)}`:
+    "🔒 Test window has ended.";
+
+  return el("div",null,
+    el("div",{class:"status-box",style:{background:sColor,borderLeft:`4px solid ${sBorder}`}},
+      el("div",{style:{fontWeight:"700",fontSize:"13px",color:"#2D1B69",marginBottom:"4px"}},"Current Exam Status"),
+      el("div",{style:{fontSize:"13px",color:"#555"}},statusMsg)
+    ),
+    el("div",{class:"section-title"},"Set Exam Window"),
+    el("div",{class:"window-toggle-row"},
+      el("input",{type:"checkbox",id:"winToggle",checked:STATE.winEnabled?true:undefined,
+        style:{width:"18px",height:"18px",accentColor:"#2D1B69",cursor:"pointer"},
+        onChange:e=>setState({winEnabled:e.target.checked},false)}),
+      el("label",{for:"winToggle",style:{fontSize:"14px",fontWeight:"600",color:"#2D1B69",cursor:"pointer"}},"Enable exam window restriction")
+    ),
+    STATE.winEnabled?el("div",null,
+      el("div",{class:"grid2"},
+        el("div",null,lbl("Start Date"),inp("date",STATE.startDate,v=>setState({startDate:v},false))),
+        el("div",null,lbl("Start Time"),inp("time",STATE.startTime,v=>setState({startTime:v},false))),
+        el("div",null,lbl("End Date"),inp("date",STATE.endDate,v=>setState({endDate:v},false))),
+        el("div",null,lbl("End Time"),inp("time",STATE.endTime,v=>setState({endTime:v},false)))
+      ),
+      STATE.startDate&&STATE.startTime&&STATE.endDate&&STATE.endTime?
+        el("div",{style:{marginTop:"10px",fontSize:"13px",color:"#4a2080",background:"#f0edf9",padding:"8px 12px",borderRadius:"6px"}},
+          "📅 Window: ",el("b",null,new Date(`${STATE.startDate}T${STATE.startTime}`).toLocaleString("en-IN")),
+          " → ",el("b",null,new Date(`${STATE.endDate}T${STATE.endTime}`).toLocaleString("en-IN"))
+        ):""
+    ):el("div",{style:{fontSize:"13px",color:"#888",padding:"8px 12px",background:"#f5f3fc",borderRadius:"6px"}},"When disabled, the test is always accessible."),
+    btn(STATE.winSaving?"Saving...":"💾 Save Exam Window",doSaveWindow,STATE.winSaving),
+    STATE.winSaved?el("div",{class:"saved-bar"},"✅ Exam window saved successfully!"):"",
+    el("div",{class:"info-note"},
+      el("div",{class:"info-note-title"},"ℹ️ How it works"),
+      el("div",{class:"info-note-body"},
+        "• Before window: students see 'Not Available'.",el("br"),
+        "• During window: students can register and take the test.",el("br"),
+        "• After window: students are blocked again.",el("br"),
+        "• Window settings are saved in your Google Sheet (Config tab).",el("br"),
+        "• Uncheck restriction to make the test always available."
+      )
+    )
+  );
+}
+
+// ── helper renderers ──────────────────────────────────────────
+function buildCard(icon,title,sub,content){
+  return el("div",null,
+    el("div",{class:"card"},
+      el("div",{class:"band"},el("span",{class:"band-icon"},icon),
+        el("div",null,el("div",{class:"band-title"},title),el("div",{class:"band-sub"},sub))),
+      content
+    )
+  );
+}
+function lbl(text){return el("label",{class:"lbl"},text);}
+function inp(type,val,onChange,extra={}){
+  const e=el("input",{type,...extra});
+  e.value=val;
+  e.addEventListener("input",ev=>onChange(ev.target.value));
+  if(extra.maxLength)e.maxLength=extra.maxLength;
+  return e;
+}
+function btn(text,onClick,disabled=false,style={}){
+  const b=el("button",{class:"btn"},text);
+  if(disabled)b.disabled=true;
+  b.addEventListener("click",onClick);
+  Object.assign(b.style,style);
+  return b;
+}
+
+// ── actions ───────────────────────────────────────────────────
+function goTest(){
+  loadWin().then(win=>{
+    const open=isOpen(win);
+    setState({mode:"test",testPhase:open?"register":"closed",win,sessionId:genId(),name:"",roll:"",className:"",mobile:"",answers:[],questions:[],current:0,warnings:0,flagged:false,saving:false,saved:false});
+    warnCount=0;
+  });
+}
+function goTeacher(){
+  setState({mode:"teacher",authed:false,pw:"",pwErr:false});
+}
+function doLogin(){
+  if(STATE.pw===TEACHER_PASSWORD){
+    setState({authed:true,pwErr:false,subsLoading:true});
+    loadSubs().then(subs=>{
+      loadWin().then(win=>{
+        const ws=win||{enabled:false,startTs:0,endTs:0};
+        const sd=ws.startTs?new Date(ws.startTs):{};
+        const ed=ws.endTs?new Date(ws.endTs):{};
+        setState({subs,subsLoading:false,win:ws,winEnabled:ws.enabled,
+          startDate:ws.startTs?sd.toISOString().slice(0,10):"",
+          startTime:ws.startTs?sd.toTimeString().slice(0,5):"",
+          endDate:ws.endTs?ed.toISOString().slice(0,10):"",
+          endTime:ws.endTs?ed.toTimeString().slice(0,5):"",
+        });
+      });
+    });
+  }else{
+    setState({pwErr:true});
+  }
+}
+function startTest(){
+  clearInterval(timerInterval);
+  warnCount=0;
+  const qs=shuffle(ALL_QUESTIONS);
+  setState({testPhase:"test",questions:qs,current:0,answers:[],timeLeft:TIME_PER_Q,warnings:0,flagged:false,saving:false,saved:false});
+  attachTabListeners();
+  startTimer();
+}
+function startTimer(){
+  clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{
+    const tl=STATE.timeLeft-1;
+    if(tl<=0){clearInterval(timerInterval);advance(null);}
+    else setState({timeLeft:tl});
+  },1000);
+}
+function advance(val){
+  clearInterval(timerInterval);
+  const ans=[...STATE.answers];
+  ans[STATE.current]=val;
+  const next=STATE.current+1;
+  if(next<STATE.questions.length){
+    setState({answers:ans,current:next,timeLeft:TIME_PER_Q});
+    startTimer();
+  }else{
+    removeTabListeners();
+    setState({answers:ans,testPhase:"done",saving:true});
+    submitResult(ans);
+  }
+}
+function submitResult(ans){
+  const qs=STATE.questions;
+  const sc=qs.reduce((a,q,i)=>a+(ans[i]===q.answer?1:0),0);
+  const pct=Math.round((sc/qs.length)*100);
+  const rec={
+    sessionId:STATE.sessionId,name:STATE.name,roll:STATE.roll,
+    className:STATE.className,mobile:STATE.mobile,
+    score:sc,total:qs.length,percentage:pct,grade:grade(pct),
+    warnings:warnCount,flagged:warnCount>=3,timestamp:Date.now(),
+    answers:qs.map((q,i)=>({qid:q.id,question:q.en,hindi:q.hi,topic:q.topic,correct:q.answer,given:ans[i]})),
+  };
+  saveSub(rec).then(()=>setState({saving:false,saved:true}));
+}
+function attachTabListeners(){
+  document.addEventListener("visibilitychange",onVis);
+  window.addEventListener("blur",onBlur);
+}
+function removeTabListeners(){
+  document.removeEventListener("visibilitychange",onVis);
+  window.removeEventListener("blur",onBlur);
+}
+function onVis(){if(document.hidden)bumpWarn();}
+function onBlur(){bumpWarn();}
+function bumpWarn(){
+  warnCount++;
+  setState({warnings:warnCount,flagged:warnCount>=3});
+}
+async function doClear(){
+  await apiPost({action:"clearAll"});
+  setState({subs:[],confirmClear:false});
+}
+async function doSaveWindow(){
+  const st=new Date(`${STATE.startDate}T${STATE.startTime}`).getTime();
+  const en=new Date(`${STATE.endDate}T${STATE.endTime}`).getTime();
+  if(!STATE.winEnabled){
+    setState({winSaving:true});
+    await saveWin({enabled:false,startTs:0,endTs:0});
+    setState({winSaving:false,winSaved:true,win:{enabled:false}});
+    setTimeout(()=>setState({winSaved:false}),3000);
+    return;
+  }
+  if(isNaN(st)||isNaN(en)||en<=st){alert("Please set valid start and end date/time. End must be after Start.");return;}
+  setState({winSaving:true});
+  const w={enabled:true,startTs:st,endTs:en};
+  await saveWin(w);
+  setState({winSaving:false,winSaved:true,win:w});
+  setTimeout(()=>setState({winSaved:false}),3000);
+}
+
+// ── init ──────────────────────────────────────────────────────
+loadWin().then(win=>setState({win}));
+render();
 </script>
 </body>
 </html>
+
